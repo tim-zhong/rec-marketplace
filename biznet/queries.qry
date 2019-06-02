@@ -1,0 +1,7 @@
+
+query selectActiveListingsByCoin {
+    description: "Select all active listings of a coin"
+    statement:
+        SELECT org.rec.CoinListing
+            WHERE (state == "ACTIVE" AND coin == _$coin)
+}
