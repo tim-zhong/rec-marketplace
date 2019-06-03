@@ -9,7 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 **These steps are for the first-time users of Hyperledger Composer.**
 
-Please follow these [instructions]((https://hyperledger.github.io/composer/latest/installing/installing-prereqs)) to install the pre-requisites for Hyperledger Composer.
+Please follow these [instructions](https://hyperledger.github.io/composer/latest/installing/installing-prereqs) to install the pre-requisites for Hyperledger Composer.
 
 After you have all the pre-requisites installed, follow these [instructions](https://hyperledger.github.io/composer/latest/installing/development-tools.html) to install the Hyperledger Composer development tools and Hyperledger Fabric.
 
