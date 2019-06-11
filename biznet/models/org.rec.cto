@@ -72,6 +72,7 @@ asset Coin identified by coinId {
 
 asset CoinListing identified by listingId {
     o String listingId
+    o Double minPrice
     o ListingState state default = 'ACTIVE'
     --> Coin coin
 }
@@ -85,6 +86,7 @@ asset Offer identified by offerId {
 
 transaction ListCoin {
     o String listingId
+    o Double minPrice default = 0.0
     --> Coin coin
 }
 

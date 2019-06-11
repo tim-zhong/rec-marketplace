@@ -21,6 +21,7 @@ async function listCoin(listCoinTransaction) {
         listingId
     );
     newListing.coin = coin;
+    newListing.minPrice = minPrice;
 
     await getAssetRegistry('org.rec.Coin')
         .then(registry => registry.update(coin));

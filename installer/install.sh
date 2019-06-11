@@ -19,15 +19,36 @@ printHeader () {
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 }
 
+# ERROR HANDLING
+set -e
+tempfiles=( )
+cleanup() {
+  rm -f "${tempfiles[@]}"
+}
+trap cleanup 0
+
+error() {
+  local parent_lineno="$1"
+  local message="$2"
+  local code="${3:-1}"
+  if [[ -n "$message" ]] ; then
+    echo "Error on or near line ${parent_lineno}: ${message}; exiting with status ${code}"
+  else
+    echo "Error on or near line ${parent_lineno}; exiting with status ${code}"
+  fi
+  exit "${code}"
+}
+trap 'error ${LINENO}' ERR
+
 # REMOVE EXISTING REST SERVER, PLAYGROUND ETC
 printHeader "REMOVE EXISTING REST SERVER, PLAYGROUND ETC"
 
 lsof -n -i:8080 | grep LISTEN | awk '{ print $2 }' | xargs kill
 lsof -n -i:3000 | grep LISTEN | awk '{ print $2 }' | xargs kill
 
-docker kill $(docker ps -q)
-docker rm $(docker ps -aq)
-docker rmi $(docker images dev-* -q)
+docker kill $(docker ps -q) || :
+docker rm $(docker ps -aq) || :
+docker rmi $(docker images dev-* -q) || :
 
 DIR="$(pwd)"
 
@@ -53,8 +74,8 @@ $DIR/fabric-tools/createPeerAdminCard.sh
 # DELETE ANY EXISTING BUSINESS NETWORK CARDS 
 printHeader "DELETE ANY EXISTING BUSINESS NETWORK CARDS"
 rm -fr ~/.composer
-composer card delete -c PeerAdmin@fabric-network
-composer card delete -c admin@rec-biznet
+composer card delete -c PeerAdmin@fabric-network || :
+composer card delete -c admin@rec-biznet || :
 echo "Don't worry if there're errors here. The cards we're deleting might not exist."
 
 cd $DIR
@@ -184,6 +205,22 @@ composer card import -f admin@rec-biznet.card
 printHeader "TEST CONNECTION"
 composer network ping -c admin@rec-biznet
 
+# CREATE DEMO PARTICIPANTS
+printHeader "CREATE DEMO PARTICIPANTS"
+composer participant add \
+-c admin@rec-biznet \
+-d '{"$class":"org.rec.User","userId":"user-alice","firstName":"Alice","lastName":"Waters","balance":1000.0}'
+
+composer participant add \
+-c admin@rec-biznet \
+-d '{"$class":"org.rec.User","userId":"user-bob", "firstName":"Bob","lastName":"Reed","balance":1000.0}'
+
+composer participant add \
+-c admin@rec-biznet \
+-d '{"$class":"org.rec.User","userId":"user-Chad", "firstName":"Chad","lastName":"Porter","balance":1000.0}'
+
+# CREATE DEMO ASSETS
+
 # START PLAYGROUND
 printHeader "START PLAYGROUND"
 composer-playground &
@@ -196,7 +233,6 @@ printHeader "START REST API"
 composer-rest-server -c admin@rec-biznet -n never -w true &
 echo "WAIT FOR REST API TO WAKE UP"
 sleep 10
-
 
 # START THE LOC APPLICATION
 # docker run \
