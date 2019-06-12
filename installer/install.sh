@@ -205,21 +205,22 @@ composer card import -f admin@rec-biznet.card
 printHeader "TEST CONNECTION"
 composer network ping -c admin@rec-biznet
 
+
 # CREATE DEMO PARTICIPANTS
+USERS_DATA=$(cat $DIR/installer/demoUsers.json)
 printHeader "CREATE DEMO PARTICIPANTS"
-composer participant add \
+composer transaction submit \
 -c admin@rec-biznet \
--d '{"$class":"org.rec.User","userId":"user-alice","firstName":"Alice","lastName":"Waters","balance":1000.0}'
+-d "$USERS_DATA"
 
-composer participant add \
--c admin@rec-biznet \
--d '{"$class":"org.rec.User","userId":"user-bob", "firstName":"Bob","lastName":"Reed","balance":1000.0}'
-
-composer participant add \
--c admin@rec-biznet \
--d '{"$class":"org.rec.User","userId":"user-Chad", "firstName":"Chad","lastName":"Porter","balance":1000.0}'
 
 # CREATE DEMO ASSETS
+COINS_DATA=$(cat $DIR/installer/demoCoins.json)
+printHeader "CREATE DEMO ASSETS"
+composer transaction submit \
+-c admin@rec-biznet \
+-d "$COINS_DATA"
+
 
 # START PLAYGROUND
 printHeader "START PLAYGROUND"
@@ -232,7 +233,7 @@ sleep 5
 printHeader "START REST API"
 composer-rest-server -c admin@rec-biznet -n never -w true &
 echo "WAIT FOR REST API TO WAKE UP"
-sleep 10
+sleep 15
 
 # START THE LOC APPLICATION
 # docker run \

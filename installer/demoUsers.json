@@ -1,0 +1,27 @@
+{
+    "$class": "org.hyperledger.composer.system.AddParticipant",
+    "targetRegistry": "resource:org.hyperledger.composer.system.ParticipantRegistry#org.rec.User",
+    "resources": [
+        {
+            "$class": "org.rec.User",
+            "userId": "user-alice",
+            "firstName": "Alice",
+            "lastName": "Waters",
+            "balance": 1000
+        },
+        {
+            "$class": "org.rec.User",
+            "userId": "user-bob",
+            "firstName": "Bob",
+            "lastName": "Reed",
+            "balance": 1000
+        },
+        {
+            "$class": "org.rec.User",
+            "userId": "user-chad",
+            "firstName": "Chad",
+            "lastName": "Porter",
+            "balance": 1000
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "$class": "org.hyperledger.composer.system.AddAsset",
+    "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#org.rec.Coin",
+    "resources": [
+        {
+            "$class": "org.rec.Coin",
+            "coinId": "0000",
+            "state": "LISTED",
+            "smartMeter": "xxxxxxxxxx",
+            "active": true,
+            "owner": "resource:org.rec.User#user-alice"
+        },
+        {
+            "$class": "org.rec.Coin",
+            "coinId": "0001",
+            "state": "LISTED",
+            "smartMeter": "xxxxxxxxxx",
+            "active": true,
+            "owner": "resource:org.rec.User#user-alice"
+        },
+        {
+            "$class": "org.rec.Coin",
+            "coinId": "0002",
+            "state": "LISTED",
+            "smartMeter": "xxxxxxxxxx",
+            "active": true,
+            "owner": "resource:org.rec.User#user-alice"
+        },
+        {
+            "$class": "org.rec.Coin",
+            "coinId": "0003",
+            "state": "LISTED",
+            "smartMeter": "xxxxxxxxxx",
+            "active": true,
+            "owner": "resource:org.rec.User#user-alice"
+        },
+        {
+            "$class": "org.rec.Coin",
+            "coinId": "0004",
+            "state": "LISTED",
+            "smartMeter": "xxxxxxxxxx",
+            "active": true,
+            "owner": "resource:org.rec.User#user-alice"
+        }
+    ]
+}
