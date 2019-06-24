@@ -29,3 +29,9 @@ Step 2: Run the install script to deploy the application.
 installer/install.sh
 ```
 Upon finishing, this script will open a few tabs that make up the application, including a explorer of the REST API.
+
+Step 3: Start the React application.
+
+```
+cd ui && npm start
+```
