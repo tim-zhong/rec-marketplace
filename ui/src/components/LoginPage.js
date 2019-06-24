@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
                 <h1>Login</h1>
                 <form onSubmit={this.handleSubmit}>
                     <input ref={input => this.username=input}></input>
-                    <input ref={input => this.password=input}></input>
+                    <input type="password" ref={input => this.password=input}></input>
                     <button type="submit">Login</button>
                 </form>
             </div>
