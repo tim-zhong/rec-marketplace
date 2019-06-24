@@ -4,7 +4,7 @@ import { alertConstants } from '../constants/alertConstants';
  * Action to show a success message.
  * @param {message} message - alert message to show
  */
-const success = message => ({
+export const alertSuccess = message => ({
     type: alertConstants.SUCCESS,
     message,
 });
@@ -13,7 +13,7 @@ const success = message => ({
  * Action to show a error message.
  * @param {message} message - alert message to show
  */
-const error = message => ({
+export const alertError = message => ({
     type: alertConstants.ERROR,
     message,
 });
@@ -21,12 +21,6 @@ const error = message => ({
 /**
  * Clear existing alerts.
  */
-const clear = () => ({
+export const alertClear = () => ({
     type: alertConstants.CLEAR
 });
-
-export const alertActions = {
-    success,
-    error,
-    clear,
- };

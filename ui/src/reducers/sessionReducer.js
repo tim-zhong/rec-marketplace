@@ -2,12 +2,20 @@ import { sessionConstants }  from '../constants/sessionConstants';
 
 export function session(state = {}, action) {
     const { type } = action;
+    const {
+        LOGIN_REQUEST,
+        LOGIN_SUCCESS,
+        LOGIN_FAILURE,
+        LOGOUT,
+    } = sessionConstants;
     switch (type) {
-        case sessionConstants.AUTH_REQUEST:
-            return { loggingIn: true }
-        case sessionConstants.AUTH_SUCCESS:
-            return { loggedIn: true }
-        case sessionConstants.AUTH_FAILURE:
+        case LOGIN_REQUEST:
+            return { loggingIn: true };
+        case LOGIN_SUCCESS:
+            return { loggedIn: true, user: action.user };
+        case LOGIN_FAILURE:
+            return {};
+        case LOGOUT:
             return {};
         default:
             return state;
