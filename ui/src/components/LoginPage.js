@@ -1,6 +1,10 @@
 import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { login, logout } from '../actions/sessionActions';
+import { Alert, Card } from 'antd';
+import LoginForm from './LoginForm';
+import '../styles/LoginPage.less';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -8,38 +12,29 @@ class LoginPage extends React.Component {
         this.props.logout();
     }
 
-    getInputValues = () => {
-        return {
-            username: this.username.value,
-            password: this.password.value,
-        };
-    }
-
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { username, password } = this.getInputValues();
-        if ( username && password ) {
-            this.props.login(username, password);
-        }
-    }
-
     render() {
+        const { alert, login, loggingIn } = this.props;
         return (
-            <div>
-                <h1>Login</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <input ref={input => this.username=input}></input>
-                    <input type="password" ref={input => this.password=input}></input>
-                    <button type="submit">Login</button>
-                </form>
+            <div className="login-page">
+                <div className="login-page__bg"></div>
+                <Card className="login-page__content" style={{ width: 400 }}>
+                    <h1 className="login-page__greeting">Welcome!</h1>
+                    <div className="login-page__alert-conatiner">
+                        {!_.isEmpty(alert) && <Alert type="error" message={alert.message} />}
+                    </div>
+                    <LoginForm
+                        login={login}
+                        isLoggingIn={loggingIn}
+                    />
+                </Card>
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    logginIn: state.session.logginIn
+    alert: state.alert,
+    loggingIn: state.session.loggingIn,
 });
 
 export default connect(mapStateToProps, {

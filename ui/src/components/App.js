@@ -18,13 +18,8 @@ class App extends React.Component {
     }
 
     render() {
-        const { alert } = this.props;
-
         return (
             <div className="App">
-                {alert.message && 
-                    <div>{`${alert.type}: ${alert.message}`}</div>
-                }
                 <Router history={history}>
                     <PrivateRoute exact path="/" component={HomePage} />
                     <Route path="/login" component={LoginPage} />
@@ -35,7 +30,6 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    alert: state.alert,
 });
 
 export default connect(mapStateToProps, { alertClear })(App);

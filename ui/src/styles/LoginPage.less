@@ -1,0 +1,31 @@
+@import 'constants.less';
+
+.login-page {
+    &__bg {
+        background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
+        background-size: cover;
+        background-position: center center;
+        position: fixed;
+        width: 100%;
+        min-height: 100vh;
+    }
+    
+    &__alert-conatiner {
+        min-height: 56px;
+        padding: @spacing--small 0;
+    }
+
+    &__content {
+        position: absolute;
+        text-align: center;
+        padding: @spacing--large;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &__greeting {
+        font-size: @font-size--large;
+        margin-bottom: 0;
+    }
+}
