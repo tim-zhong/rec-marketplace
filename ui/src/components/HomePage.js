@@ -18,6 +18,7 @@ class HomePage extends React.Component {
         return (
             <div>
                 <h1>Hi, {user.firstName}</h1>
+                <Link to="/dashboard">Dashboard</Link>
                 <Link to="/login">Logout</Link>
             </div>
         );
