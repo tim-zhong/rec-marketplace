@@ -44,8 +44,8 @@ export const fetchAsset = assetName => dispatch => {
 
     fetcher.fetch()
         .then(
-            entities => {
-                dispatch({ type: FETCH_ASSET_SUCCESS, entities });
+            results => {
+                dispatch({ type: FETCH_ASSET_SUCCESS, results });
             }
         )
         .catch(

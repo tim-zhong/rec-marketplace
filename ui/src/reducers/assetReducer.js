@@ -17,7 +17,7 @@ const buildBasicAssetReducer = actionTypes => {
             case FETCH_ASSET_REQUEST:
                 return { fetching: true };
             case FETCH_ASSET_SUCCESS:
-                return { entities: action.entities };
+                return { ...action.results };
             case FETCH_ASSET_FAILURE:
                 return { error: action.error };
             default:
