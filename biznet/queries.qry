@@ -1,7 +1,20 @@
+query selectActiveListings {
+    description: "Select all active listings"
+    statement:
+        SELECT org.rec.CoinListing
+            WHERE (state == "ACTIVE")
+}
 
 query selectActiveListingsByCoin {
     description: "Select all active listings of a coin"
     statement:
         SELECT org.rec.CoinListing
             WHERE (state == "ACTIVE" AND coin == _$coin)
+}
+
+query selectListedCoins {
+    description: "Select all listed coins"
+    statement:
+        SELECT org.rec.Coin
+            WHERE (state == "LISTED")
 }
