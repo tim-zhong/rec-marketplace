@@ -1,6 +1,9 @@
 import { sessionConstants }  from '../constants/sessionConstants';
 
-export function session(state = {}, action) {
+let user = JSON.parse(localStorage.getItem('user'));
+const initialState = user ? { loggedIn: true, user } : {};
+
+export function session(state = initialState, action) {
     const { type } = action;
     const {
         LOGIN_REQUEST,

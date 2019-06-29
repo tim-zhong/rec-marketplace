@@ -11,7 +11,7 @@ function login(username, password) {
         .then(users => {
             if (users.length > 0) {
                 // store user details and token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', users[0]);
+                localStorage.setItem('user', JSON.stringify(users[0]));
                 return users[0];
             }
             return Promise.reject('Login Failed.');
