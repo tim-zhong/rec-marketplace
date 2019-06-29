@@ -55,5 +55,4 @@ class LoginForm extends React.Component {
     }
 }
 
-
 export default Form.create()(LoginForm);

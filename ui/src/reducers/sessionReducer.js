@@ -1,6 +1,6 @@
 import { sessionConstants }  from '../constants/sessionConstants';
 
-let user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user ? { loggedIn: true, user } : {};
 
 export function session(state = initialState, action) {
