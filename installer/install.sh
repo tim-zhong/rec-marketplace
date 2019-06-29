@@ -217,10 +217,16 @@ composer transaction submit \
 
 # CREATE DEMO ASSETS
 COINS_DATA=$(cat $DIR/installer/demoCoins.json)
-printHeader "CREATE DEMO ASSETS"
+printHeader "CREATE DEMO ASSETS - COINS"
 composer transaction submit \
 -c admin@rec-biznet \
 -d "$COINS_DATA"
+
+LISTINGS_DATA=$(cat $DIR/installer/demoListings.json)
+printHeader "CREATE DEMO ASSETS - LISTINGS"
+composer transaction submit \
+-c admin@rec-biznet \
+-d "$LISTINGS_DATA"
 
 
 # START PLAYGROUND

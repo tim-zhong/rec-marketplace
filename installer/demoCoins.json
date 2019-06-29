@@ -7,7 +7,9 @@
             "coinId": "0000",
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
-            "active": true,
+            "country": "Canada",
+            "city": "Waterloo",
+            "assetType": "SOLAR",
             "owner": "resource:org.rec.User#user-alice"
         },
         {
@@ -15,7 +17,9 @@
             "coinId": "0001",
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
-            "active": true,
+            "country": "Canada",
+            "city": "Toronto",
+            "assetType": "SOLAR",
             "owner": "resource:org.rec.User#user-alice"
         },
         {
@@ -23,7 +27,9 @@
             "coinId": "0002",
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
-            "active": true,
+            "country": "Canada",
+            "city": "Waterloo",
+            "assetType": "SOLAR",
             "owner": "resource:org.rec.User#user-alice"
         },
         {
@@ -31,7 +37,9 @@
             "coinId": "0003",
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
-            "active": true,
+            "country": "Canada",
+            "city": "Waterloo",
+            "assetType": "WIND",
             "owner": "resource:org.rec.User#user-alice"
         },
         {
@@ -39,7 +47,9 @@
             "coinId": "0004",
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
-            "active": true,
+            "country": "Canada",
+            "city": "Waterloo",
+            "assetType": "SOLAR",
             "owner": "resource:org.rec.User#user-alice"
         }
     ]

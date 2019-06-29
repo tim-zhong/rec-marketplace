@@ -1,0 +1,36 @@
+{
+    "$class": "org.hyperledger.composer.system.AddAsset",
+    "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#org.rec.CoinListing",
+    "resources": [
+        {
+            "$class": "org.rec.CoinListing",
+            "listingId": "0000",
+            "minPrice": 10.00,
+            "coin": "resource:org.rec.Coin#0000"
+        },
+        {
+            "$class": "org.rec.CoinListing",
+            "listingId": "0001",
+            "minPrice": 11.00,
+            "coin": "resource:org.rec.Coin#0001"
+        },
+        {
+            "$class": "org.rec.CoinListing",
+            "listingId": "0002",
+            "minPrice": 12.00,
+            "coin": "resource:org.rec.Coin#0002"
+        },
+        {
+            "$class": "org.rec.CoinListing",
+            "listingId": "0003",
+            "minPrice": 13.00,
+            "coin": "resource:org.rec.Coin#0003"
+        },
+        {
+            "$class": "org.rec.CoinListing",
+            "listingId": "0004",
+            "minPrice": 15.00,
+            "coin": "resource:org.rec.Coin#0004"
+        }
+    ]
+}
