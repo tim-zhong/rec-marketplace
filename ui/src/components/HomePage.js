@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchAsset } from '../actions/assetActions';
+import Layout from './layout/Layout';
+
+const { Header, Sider, Content } = Layout;
 
 class HomePage extends React.Component {
     componentDidMount() {
@@ -16,11 +19,15 @@ class HomePage extends React.Component {
     render() {
         const { user } = this.props;
         return (
-            <div>
-                <h1>Hi, {user.firstName}</h1>
-                <Link to="/dashboard">Dashboard</Link>
-                <Link to="/login">Logout</Link>
-            </div>
+            <Layout>
+                <Header user={user} selected="home" />
+                <Sider>Sider</Sider>
+                <Content>
+                    <h1>Hi, {user.firstName}</h1>
+                    <Link to="/dashboard">Dashboard</Link>
+                    <Link to="/login">Logout</Link>
+                </Content>
+            </Layout>
         );
     }
 }

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import App from './components/App';
+import './styles/global.less';
 
 render(
     <Provider store={store}>

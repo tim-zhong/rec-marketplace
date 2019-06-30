@@ -1,0 +1,31 @@
+@import '../constants.less';
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    line-height: 64px;
+    box-shadow: @shadow1;
+    background: @white;
+
+    &__logo {
+        padding-left: @spacing5;
+    }
+
+    &__nav {
+        float: left;
+    }
+
+    &__user {
+        float: right;
+        margin: 0 @spacing5;
+    }
+
+    .ant-menu-horizontal {
+        border-bottom: none;    
+    }
+    .ant-menu-horizontal>.ant-menu-item, #nav.ant-menu-horizontal>.ant-menu-submenu {
+        min-height: 64px;
+        line-height: 64px;
+    }
+}
