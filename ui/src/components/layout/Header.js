@@ -14,10 +14,10 @@ const userMenu = (
 const Header = props => (
     <header className="header">
         <Row className="header__inner">
-            <Col span="6" className="header__logo">
+            <Col span={6} className="header__logo">
             <Link to="/">REC SYSTEM</Link>
             </Col>
-            <Col span="18">
+            <Col span={18}>
                 <Dropdown className="header__user" overlay={userMenu} trigger={['click']}>
                     <button className="button-link">
                         <Icon type="user" /> {props.user.firstName} <Icon type="down"/>

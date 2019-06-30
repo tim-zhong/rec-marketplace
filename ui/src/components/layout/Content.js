@@ -3,7 +3,7 @@ import { Col } from 'antd';
 import '../../styles/layout/Content.less';
 
 const Content = props => (
-    <Col span="18" className="content">
+    <Col span={18} className="content">
         <main>
             {props.children}
         </main>
