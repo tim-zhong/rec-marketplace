@@ -18,6 +18,7 @@
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
             "country": "Canada",
+            "region": "Ontario",
             "city": "Toronto",
             "assetType": "SOLAR",
             "owner": "resource:org.rec.User#user-alice"
@@ -28,6 +29,7 @@
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
             "country": "Canada",
+            "region": "Ontario",
             "city": "Waterloo",
             "assetType": "SOLAR",
             "owner": "resource:org.rec.User#user-alice"
@@ -38,6 +40,7 @@
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
             "country": "Canada",
+            "region": "Ontario",
             "city": "Waterloo",
             "assetType": "WIND",
             "owner": "resource:org.rec.User#user-alice"
@@ -48,6 +51,7 @@
             "state": "LISTED",
             "smartMeter": "xxxxxxxxxx",
             "country": "Canada",
+            "region": "Ontario",
             "city": "Waterloo",
             "assetType": "SOLAR",
             "owner": "resource:org.rec.User#user-alice"
