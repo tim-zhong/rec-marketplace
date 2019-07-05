@@ -12,6 +12,10 @@ function buildRefString(model, idKey) {
     return `${model['$class']}#${model[idKey]}`;
 }
 
+function getIdFromRefString(refString) {
+    return refString.split('#')[1] || '';
+}
+
 function get(path, filter) {
     const filterString = filter
         ? `?filter=${JSON.stringify(filter)}`
@@ -39,6 +43,7 @@ function post(type, data) {
 
 export const hyperledgerClient = {
     buildRefString,
+    getIdFromRefString,
     get,
     post,
 };
