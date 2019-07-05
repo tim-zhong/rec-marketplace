@@ -4,7 +4,7 @@ import { fetchAsset } from '../actions/assetActions';
 import Layout from './layout/Layout';
 import ListingTable from './ListingTable';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 class HomePage extends React.Component {
     componentDidMount() {
@@ -21,9 +21,7 @@ class HomePage extends React.Component {
         return (
             <Layout>
                 <Header user={user} selected="home" />
-                <Sider>Filters</Sider>
                 <Content>
-                    <h1>Hi, {user.firstName}</h1>
                     <ListingTable/>
                 </Content>
             </Layout>
