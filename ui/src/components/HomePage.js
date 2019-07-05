@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { fetchAsset } from '../actions/assetActions';
 import Layout from './layout/Layout';
+import ListingTable from './ListingTable';
 
 const { Header, Sider, Content } = Layout;
 
@@ -21,11 +21,10 @@ class HomePage extends React.Component {
         return (
             <Layout>
                 <Header user={user} selected="home" />
-                <Sider>Sider</Sider>
+                <Sider>Filters</Sider>
                 <Content>
                     <h1>Hi, {user.firstName}</h1>
-                    <Link to="/dashboard">Dashboard</Link>
-                    <Link to="/login">Logout</Link>
+                    <ListingTable/>
                 </Content>
             </Layout>
         );

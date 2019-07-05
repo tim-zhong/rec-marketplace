@@ -2,13 +2,14 @@ import React from 'react';
 import Header from './Header';
 import Sider from './Sider';
 import Content from './Content';
+import { Row } from 'antd'
 
 class Layout extends React.Component {
     render() {
         return (
-            <React.Fragment>
+            <Row type="flex" justify="space-around">
                 {this.props.children}
-            </React.Fragment>
+            </Row>
         )
     }
 }
