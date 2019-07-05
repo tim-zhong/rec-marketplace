@@ -42,7 +42,7 @@ export const fetchAsset = assetName => dispatch => {
     // initiate request
     dispatch({ type: FETCH_ASSET_REQUEST });
 
-    fetcher.fetch()
+    return fetcher.fetch()
         .then(
             results => {
                 dispatch({ type: FETCH_ASSET_SUCCESS, results });

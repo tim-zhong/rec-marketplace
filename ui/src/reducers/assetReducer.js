@@ -1,6 +1,12 @@
 import { assetConstants }  from '../constants/assetConstants';
 import { combineReducers } from 'redux';
 
+const initialState = {
+    entities: {
+        byId: [],
+    },
+    result: [],
+};
 /**
  * Builds a reducer that supports the basic data flow for an asset.
  * @param {Object} actionTypes - list of required action types for the reducer to hook up with.
@@ -12,14 +18,14 @@ const buildBasicAssetReducer = actionTypes => {
         FETCH_ASSET_FAILURE,
     } = actionTypes;
 
-    return (state = {}, action) => {
+    return (state = initialState, action) => {
         switch (action.type) {
             case FETCH_ASSET_REQUEST:
-                return { fetching: true };
+                return { ...state, fetching: true };
             case FETCH_ASSET_SUCCESS:
-                return { ...action.results };
+                return { ...action.results, success: true};
             case FETCH_ASSET_FAILURE:
-                return { error: action.error };
+                return { ...state, error: action.error };
             default:
                 return state;
         }
