@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { listingsWithCoinDataSelector } from '../selectors';
-import { Button, Table } from 'antd';
+import { Button, Divider, Icon, Table } from 'antd';
+import CoinDetailsModal from './modals/CoinDetailsModal';
 import _ from 'lodash';
 import '../styles/ListingTable.less';
 
@@ -9,12 +10,30 @@ class ListingTable extends React.Component {
     state = {
         filteredInfo: {},
         sortedInfo: {},
+        isCoinDetailsModalOpen: false,
+        isBuyCoinModalOpen: false,
+        selectedCoin: {},
     }
 
     handleChange = (pagination, filters, sorter) => {
         this.setState({
             filteredInfo: filters,
             sortedInfo: sorter,
+        });
+    }
+
+    handleDetailsClick = record => {
+        console.log(record.coin);
+        this.setState({
+            selectedCoin: record.coin,
+            isCoinDetailsModalOpen: true,
+        });
+    }
+
+    handleModelCancel = () => {
+        this.setState({
+            isCoinDetailsModalOpen: false,
+            isBuyCoinModalOpen: false,
         });
     }
     
@@ -46,7 +65,7 @@ class ListingTable extends React.Component {
         const sorter = (a, b) => _.get(a, path) - _.get(b, path);
         const sortDirections = ['descend', 'ascend'];
         const sortOrder = sortedInfo.columnKey === columnKey && sortedInfo.order;
-        
+
         return { sorter, sortDirections, sortOrder };
     }
 
@@ -63,6 +82,12 @@ class ListingTable extends React.Component {
                 dataIndex: 'coin.country',
                 key: 'country',
                 ...this.createColumnFilter('country', 'coin.country'),
+            },
+            {
+                title: 'Region',
+                dataIndex: 'coin.region',
+                key: 'region',
+                ...this.createColumnFilter('region', 'coin.region'),
             },
             {
                 title: 'City',
@@ -87,6 +112,13 @@ class ListingTable extends React.Component {
                 key: 'action',
                 render: (text, record) => (
                     <span>
+                        <button
+                            className="button-link button-link--colored"
+                            onClick={this.handleDetailsClick.bind(this, record)}
+                        >
+                            <Icon type="eye" />
+                        </button>
+                        <Divider type="vertical" />
                         <button className="button-link button-link--colored">Buy</button>
                     </span>
                 ),
@@ -96,6 +128,7 @@ class ListingTable extends React.Component {
 
     render() {
         const { listings, isDataReady } = this.props;
+        const { selectedCoin, isCoinDetailsModalOpen } = this.state;
 
         return(
             <div className="listing-table">
@@ -109,6 +142,11 @@ class ListingTable extends React.Component {
                             onChange={this.handleChange}
                             dataSource={listings}
                             pagination={false}
+                        />
+                        <CoinDetailsModal
+                            isOpen={isCoinDetailsModalOpen}
+                            onCancel={this.handleModelCancel}
+                            coin={selectedCoin}
                         />
                     </div>
                 }

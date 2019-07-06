@@ -22,6 +22,7 @@ class HomePage extends React.Component {
             <Layout>
                 <Header user={user} selected="home" />
                 <Content>
+                    <h1>Coins Listed For Sale</h1>
                     <ListingTable/>
                 </Content>
             </Layout>
