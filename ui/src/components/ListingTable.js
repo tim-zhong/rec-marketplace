@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { listingsWithCoinDataSelector } from '../selectors';
-import { Button, Divider, Icon, Table } from 'antd';
+import { Button, Divider, Icon, Table, Tooltip } from 'antd';
 import CoinDetailsModal from './modals/CoinDetailsModal';
 import _ from 'lodash';
 import '../styles/ListingTable.less';
@@ -23,7 +23,6 @@ class ListingTable extends React.Component {
     }
 
     handleDetailsClick = record => {
-        console.log(record.coin);
         this.setState({
             selectedCoin: record.coin,
             isCoinDetailsModalOpen: true,
@@ -112,12 +111,14 @@ class ListingTable extends React.Component {
                 key: 'action',
                 render: (text, record) => (
                     <span>
-                        <button
-                            className="button-link button-link--colored"
-                            onClick={this.handleDetailsClick.bind(this, record)}
-                        >
-                            <Icon type="eye" />
-                        </button>
+                        <Tooltip placement="left" title="View Details" mouseEnterDelay={1} >
+                            <button
+                                className="button-link button-link--colored"
+                                onClick={this.handleDetailsClick.bind(this, record)}
+                            >
+                                    <Icon type="eye" />
+                            </button>
+                        </Tooltip>
                         <Divider type="vertical" />
                         <button className="button-link button-link--colored">Buy</button>
                     </span>
