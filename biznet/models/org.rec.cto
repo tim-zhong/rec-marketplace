@@ -77,8 +77,8 @@ asset CoinListing identified by listingId {
     --> Coin coin
 }
 
-asset Offer identified by offerId {
-    o String offerId
+asset Bid identified by bidId {
+    o String bidId
     o Double bidPrice
     --> CoinListing listing
     --> User user
@@ -92,8 +92,4 @@ transaction ListCoin {
 
 transaction CancelCoin {
      --> Coin coin
-}
-
-transaction AcceptOffer {
-    --> Offer offer
 }
