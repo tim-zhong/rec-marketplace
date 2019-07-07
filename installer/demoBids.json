@@ -8,6 +8,20 @@
             "bidPrice": 13.00,
             "listing": "resource:org.rec.CoinListing#0000",
             "user": "resource:org.rec.User#user-chad"
-          }
+        },
+        {
+            "$class": "org.rec.Bid",
+            "bidId": "0000",
+            "bidPrice": 14.00,
+            "listing": "resource:org.rec.CoinListing#0000",
+            "user": "resource:org.rec.User#user-alice"
+        },
+        {
+            "$class": "org.rec.Bid",
+            "bidId": "0001",
+            "bidPrice": 13.00,
+            "listing": "resource:org.rec.CoinListing#0001",
+            "user": "resource:org.rec.User#user-chad"
+        }
     ]
 }
