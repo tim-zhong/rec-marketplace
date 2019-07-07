@@ -18,11 +18,11 @@ function getIdFromRefString(refString) {
 
 function get(path, filter) {
     const filterString = filter
-        ? `?filter=${JSON.stringify(filter)}`
+        ? `?filter=${JSON.stringify(filter).replace('#', '%23')}`
         : '';
-    console.log(`${API_ROOT}api/${path}${filterString}`);
+
     return new Promise((resolve, reject) => {
-        return fetch(`${API_ROOT}api/${path}${filterString}`, {accpet: 'application/json'})
+        return fetch(`${API_ROOT}api${path}${filterString}`, {accpet: 'application/json'})
             .then(parseJSON)
             .then(resolve)
     });
@@ -30,7 +30,7 @@ function get(path, filter) {
 
 function post(type, data) {
     return new Promise((resolve, reject) => {
-        return fetch(`${API_ROOT}api/${type}`, {
+        return fetch(`${API_ROOT}api${type}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
