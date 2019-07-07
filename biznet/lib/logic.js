@@ -1,4 +1,39 @@
 /**
+ * Place a bid on a listing
+ * @param {org.rec.PlaceBid} PlaceBid - the PlaceBid transaction
+ * @transaction
+ */
+async function placeBid(placeBidTransaction) {
+    const { bidId, bidPrice, listing, user } = placeBidTransaction;
+
+    if (listing.state !== 'ACTIVE') {
+        throw new Error('Listing is not longer active');
+    }
+	if (user.balance < bidPrice) {
+        throw new Error('Insufficient balance');
+    }
+
+    user.balance -= bidPrice;
+
+	const factory = getFactory();
+	const newBid = factory.newResource(
+        'org.rec',
+        'Bid',
+        bidId
+    );
+    newBid.bidPrice = bidPrice;
+    newBid.listing = listing;
+    newBid.user = user;
+
+    await getAssetRegistry('org.rec.User')
+        .then(registry => registry.update(user));
+    await getAssetRegistry('org.rec.Listing')
+        .then(registry => registry.update(listing));
+    await getAssetRegistry('org.rec.Bid')
+        .then(registry => registry.add(newBid));
+}
+
+/**
  * List a coin on the marketplace
  * @param {org.rec.ListCoin} ListCoin - the ListCoin transaction
  * @transaction

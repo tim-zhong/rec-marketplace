@@ -84,6 +84,13 @@ asset Bid identified by bidId {
     --> User user
 }
 
+transaction PlaceBid {
+    o String bidId
+    o Double bidPrice
+    --> CoinListing listing
+    --> User user
+}
+
 transaction ListCoin {
     o String listingId
     o Double minPrice default = 0.0
