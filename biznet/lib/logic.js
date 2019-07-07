@@ -51,34 +51,3 @@ async function cancelCoin(cancelCoinTransaction) {
     await getAssetRegistry('org.rec.Coin')
         .then(registry => registry.update(coin));
 }
-
-/**
- * Accept an offer and close the bidding
- * @param {org.rec.AcceptOffer} acceptOfferTransaction - the acceptOfferTransaction transaction
- * @transaction
- */
-async function acceptOffer(acceptOfferTransaction) {
-    const { offer } = acceptOfferTransaction;
-    const { listing, user, bidPrice } = offer;
-
-    if (listing.state !== 'ACTIVE') {
-        throw new Error('Listing is not longer active');
-    }
-    if (listing.coin.state !== 'LISTED') {
-        throw new Error('Coin is not longer for sale');
-    }
-
-    const lastOwner = listing.coin.owner;
-    user.balance -= bidPrice;
-    lastOwner.balance += bidPrice;
-    listing.coin.owner = user;
-    listing.coin.state = 'ACTIVE';
-    listing.state = 'SOLD';
-
-    await getAssetRegistry('org.rec.Coin')
-        .then(registry => registry.update(listing.coin));
-    await getParticipantRegistry('org.rec.User')
-        .then(registry => registry.updateAll([user, lastOwner]));
-    await getAssetRegistry('org.rec.CoinListing')
-        .then(registry => registry.update(listing));
-}
