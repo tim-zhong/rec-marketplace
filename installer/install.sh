@@ -228,6 +228,12 @@ composer transaction submit \
 -c admin@rec-biznet \
 -d "$LISTINGS_DATA"
 
+BIDS_DATA=$(cat $DIR/installer/demoBids.json)
+printHeader "CREATE DEMO ASSETS - BIDS"
+composer transaction submit \
+-c admin@rec-biznet \
+-d "$BIDS_DATA"
+
 
 # START PLAYGROUND
 printHeader "START PLAYGROUND"

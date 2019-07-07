@@ -1,0 +1,13 @@
+{
+    "$class": "org.hyperledger.composer.system.AddAsset",
+    "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#org.rec.Bid",
+    "resources": [
+        {
+            "$class": "org.rec.Bid",
+            "bidId": "0000",
+            "bidPrice": 13.00,
+            "listing": "resource:org.rec.CoinListing#0000",
+            "user": "resource:org.rec.User#user-chad"
+          }
+    ]
+}
