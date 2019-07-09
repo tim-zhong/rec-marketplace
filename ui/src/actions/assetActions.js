@@ -20,6 +20,11 @@ const getDataFetcherByAssetName = assetName => {
                 actionTypes: assetConstants.COINS,
                 fetch: assetService.fetchListedCoins,
             };
+        case 'bidsByListing':
+            return {
+                actionTypes: assetConstants.BIDS,
+                fetch: assetService.fetchBidsByListing,
+            }
         default:
             throw new Error(`No matching fetcher for asset name: ${assetName}`);
     }
@@ -30,7 +35,7 @@ const getDataFetcherByAssetName = assetName => {
  * Relies on Redux Thunk middleware.
  * @param {String} assetName - Name of the asset
  */
-export const fetchAsset = assetName => dispatch => {
+export const fetchAsset = (assetName, ...rest) => dispatch => {
     const fetcher = getDataFetcherByAssetName(assetName);
 
     const {
@@ -42,10 +47,10 @@ export const fetchAsset = assetName => dispatch => {
     // initiate request
     dispatch({ type: FETCH_ASSET_REQUEST });
 
-    return fetcher.fetch()
+    return fetcher.fetch(...rest)
         .then(
-            results => {
-                dispatch({ type: FETCH_ASSET_SUCCESS, results });
+            data => {
+                dispatch({ type: FETCH_ASSET_SUCCESS, data });
             }
         )
         .catch(
@@ -54,4 +59,13 @@ export const fetchAsset = assetName => dispatch => {
                 dispatch({ type: FETCH_ASSET_FAILURE, error });
             }
         );
+}
+
+/**
+ * Create assets of a given type.
+ * Relies on Redux Thunk middleware.
+ * @param {String} assetName - Name of the asset
+ */
+export const createAsset = (assetName, ...rest) => dispatch => {
+    // TODO
 }

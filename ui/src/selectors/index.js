@@ -11,14 +11,23 @@ const { getIdFromRefString } = hyperledgerClient;
 
 const listingIdsSelector = state => state.assets.listings.result;
 const listingDataSelector = state => state.assets.listings.entities.byId;
-const coinIdsSelector = state => state.assets.coins.entities.result;
+const coinIdsSelector = state => state.assets.coins.result;
 const coinDataSelector = state => state.assets.coins.entities.byId;
+const bidIdsSelector = state => state.assets.bids.result;
+const bidDataSelector = state => state.assets.bids.entities.byId;
 
+/**
+ * listingsSelector return an array that contains all the listings in the store.
+ */
 export const listingsSelector = createSelector(
     [listingIdsSelector, listingDataSelector],
     (ids, data) => _.map(ids, id => ({...data[id], key: id}))
 );
 
+/**
+ * listingsWithCoinDataSelector return an array that contains all the listings in the store.
+ * It also decorates the 'coin' field in each listing with the actual coin data.
+ */
 export const listingsWithCoinDataSelector = createSelector(
     [coinDataSelector, listingsSelector],
     (coinData, listings) => {
@@ -29,7 +38,18 @@ export const listingsWithCoinDataSelector = createSelector(
     }
 );
 
+/**
+ * coinsSelector return an array that contains all the coins in the store.
+ */
 export const coinsSelector = createSelector(
     [coinIdsSelector, coinDataSelector],
+    (ids, data) => _.map(ids, id => ({...data[id], key: id}))
+);
+
+/**
+ * bidsSelector return an array that contains all the bids in the store.
+ */
+export const bidsSelector = createSelector(
+    [bidIdsSelector, bidDataSelector],
     (ids, data) => _.map(ids, id => ({...data[id], key: id}))
 );
