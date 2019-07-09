@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchAsset } from '../actions/assetActions';
+import { fetchAsset, createAsset } from '../actions/assetActions';
 import Layout from './layout/Layout';
 import ListingTable from './ListingTable';
 
@@ -11,10 +11,14 @@ class HomePage extends React.Component {
         this.loadData();
     }
 
-    loadData() {
+    loadData = () => {
         this.props.fetchAsset('activeListings');
         this.props.fetchAsset('listedCoins');
     }
+
+    fetchBidsByListing = listingId => this.props.fetchAsset('bidsByListing', listingId);
+
+    postBid = bidPrice => this.prop.createAsset('bid', bidPrice);
 
     render() {
         const { user } = this.props;
@@ -23,7 +27,10 @@ class HomePage extends React.Component {
                 <Header user={user} selected="home" />
                 <Content>
                     <h1>Coins Listed For Sale</h1>
-                    <ListingTable/>
+                    <ListingTable
+                        fetchBidsByListing={this.fetchBidsByListing}
+                        onPlaceBid={this.postBid}
+                    />
                 </Content>
             </Layout>
         );
@@ -37,4 +44,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     fetchAsset,
+    createAsset,
 })(HomePage);

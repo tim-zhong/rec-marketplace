@@ -1,0 +1,25 @@
+@import '../constants.less';
+
+.coin-details-modal {
+    &__info-container {
+        padding: @spacing2;
+    }
+    &__form-container {
+        padding: @spacing2 @spacing2 @spacing3;
+        background-color: @gray;
+
+        & .ant-form-inline .ant-form-item-with-help {
+            margin-bottom: 0;
+        }
+        & .has-error .ant-form-explain, .has-error .ant-form-split {
+            display: none;
+        }
+    }
+
+    &__price-message {
+        margin-bottom: 0;
+        margin-left: @spacing1;
+        line-height: 1.1;
+        font-style: italic;
+    }
+}
