@@ -5,6 +5,7 @@ import { normalize, schema } from 'normalizr';
 // that Redux reduxers can easily consume.
 const listingSchema = new schema.Entity('byId', {}, { idAttribute: listing => listing.listingId });
 const coinSchema = new schema.Entity('byId', {}, { idAttribute: coin => coin.coinId });
+const bidSchema = new schema.Entity('byId', {}, { idAttribute: bid => bid.bidId });
 
 /**
  * Service function for fetching active coin listings.
@@ -24,7 +25,17 @@ const fetchListedCoins = () => {
         .catch(err => Promise.reject('Failed to fetch listed coins.'));
 }
 
+/**
+ * Service function for fetching listed coins.
+ */
+const fetchBidsByListing = listingId => {
+    return hyperledgerClient.get('/Bid', {'WHERE': {'listing': listingId}})
+        .then(bids => normalize(bids, [bidSchema]))
+        .catch(err => Promise.reject('Failed to fetch listed bids by listing.'));
+}
+
 export const assetService = {
     fetchActiveListings,
     fetchListedCoins,
+    fetchBidsByListing,
 }
