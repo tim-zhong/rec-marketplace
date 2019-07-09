@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { listingsWithCoinDataSelector } from '../selectors';
+import { hyperledgerClient } from '../helpers/hyperledgerClient';
+import { bidsSelector, listingsWithCoinDataSelector } from '../selectors';
 import { Button, Divider, Icon, Table, Tooltip } from 'antd';
 import CoinDetailsModal from './modals/CoinDetailsModal';
+import BuyCoinModal from './modals/BuyCoinModal';
 import _ from 'lodash';
 import '../styles/ListingTable.less';
 
@@ -12,7 +14,7 @@ class ListingTable extends React.Component {
         sortedInfo: {},
         isCoinDetailsModalOpen: false,
         isBuyCoinModalOpen: false,
-        selectedCoin: {},
+        selectedListing: {},
     }
 
     handleChange = (pagination, filters, sorter) => {
@@ -24,8 +26,16 @@ class ListingTable extends React.Component {
 
     handleDetailsClick = record => {
         this.setState({
-            selectedCoin: record.coin,
+            selectedListing: record,
             isCoinDetailsModalOpen: true,
+        });
+    }
+
+    handleBuyClick = record => {
+        this.props.fetchBidsByListing(record.listingId);
+        this.setState({
+            selectedListing: record,
+            isBuyCoinModalOpen: true,
         });
     }
 
@@ -41,6 +51,19 @@ class ListingTable extends React.Component {
             filteredInfo: {},
             sortedInfo: {},
         });
+    }
+    
+    getBidsForSelectedListing = () => {
+        const { bids } = this.props;
+        const { selectedListing } = this.state; 
+        
+        // Although _.filter has a linear time complexity, the number of bids here is usually tiny
+        // as we only fetch a small number of bids each time. Will keep it for now until there's a
+        // better approach.
+        return _.filter(
+            bids,
+            (bid => hyperledgerClient.getIdFromRefString(bid.listing) === selectedListing.listingId)
+        );
     }
 
     createColumnFilter = (columnKey, path) => {
@@ -67,7 +90,7 @@ class ListingTable extends React.Component {
 
         return { sorter, sortDirections, sortOrder };
     }
-
+    
     createColumns = () => {
         return [
             {
@@ -101,14 +124,14 @@ class ListingTable extends React.Component {
                 ...this.createColumnFilter('assetType', 'coin.assetType'),
             },
             {
-                title: 'Price',
+                title: 'Price (CAD)',
                 dataIndex: 'minPrice',
                 key: 'minPrice',
                 ...this.createColumnSorter('minPrice', 'minPrice'),
             },
             {
-                title: 'Action',
-                key: 'action',
+                title: 'Actions',
+                key: 'actions',
                 render: (text, record) => (
                     <span>
                         <Tooltip placement="left" title="View Details" mouseEnterDelay={1} >
@@ -120,7 +143,12 @@ class ListingTable extends React.Component {
                             </button>
                         </Tooltip>
                         <Divider type="vertical" />
-                        <button className="button-link button-link--colored">Buy</button>
+                        <button
+                            className="button-link button-link--colored"
+                            onClick={this.handleBuyClick.bind(this, record)}
+                        >
+                            Buy
+                        </button>
                     </span>
                 ),
             },
@@ -128,8 +156,8 @@ class ListingTable extends React.Component {
     }
 
     render() {
-        const { listings, isDataReady } = this.props;
-        const { selectedCoin, isCoinDetailsModalOpen } = this.state;
+        const { listings, isDataReady, onPlaceBid } = this.props;
+        const { selectedListing, isCoinDetailsModalOpen, isBuyCoinModalOpen } = this.state;
 
         return(
             <div className="listing-table">
@@ -147,7 +175,14 @@ class ListingTable extends React.Component {
                         <CoinDetailsModal
                             isOpen={isCoinDetailsModalOpen}
                             onCancel={this.handleModelCancel}
-                            coin={selectedCoin}
+                            coin={selectedListing.coin}
+                        />
+                        <BuyCoinModal
+                            isOpen={isBuyCoinModalOpen}
+                            onCancel={this.handleModelCancel}
+                            listing={selectedListing}
+                            bids={this.getBidsForSelectedListing()}
+                            onSubmit={onPlaceBid}
                         />
                     </div>
                 }
@@ -159,6 +194,7 @@ class ListingTable extends React.Component {
 const mapStateToProps = state => ({
     listings: listingsWithCoinDataSelector(state),
     isDataReady: state.assets.listings.success && state.assets.coins.success,
+    bids: bidsSelector(state),
 });
 
 export default connect(mapStateToProps, {})(ListingTable);
