@@ -1,9 +1,10 @@
 import { assetConstants }  from '../constants/assetConstants';
 import { combineReducers } from 'redux';
+import _ from 'lodash';
 
 const initialState = {
     entities: {
-        byId: [],
+        byId: {},
     },
     result: [],
 };
@@ -19,13 +20,21 @@ const buildBasicAssetReducer = actionTypes => {
     } = actionTypes;
 
     return (state = initialState, action) => {
-        switch (action.type) {
+        const { type, data, error } = action;
+        switch (type) {
             case FETCH_ASSET_REQUEST:
                 return { ...state, fetching: true };
             case FETCH_ASSET_SUCCESS:
-                return { ...action.results, success: true};
+                const entities = {
+                    byId: {
+                        ...state.entities.byId,
+                        ...data.entities.byId,
+                    }
+                };
+                const result = _.union(state.result, data.result);
+                return { entities, result, success: true};
             case FETCH_ASSET_FAILURE:
-                return { ...state, error: action.error };
+                return { ...state, error: error };
             default:
                 return state;
         }
@@ -34,8 +43,10 @@ const buildBasicAssetReducer = actionTypes => {
 
 const listings = buildBasicAssetReducer(assetConstants.LISTINGS);
 const coins = buildBasicAssetReducer(assetConstants.COINS);
+const bids = buildBasicAssetReducer(assetConstants.BIDS);
 
 export const assets = combineReducers({
     listings,
     coins,
+    bids,
 });
