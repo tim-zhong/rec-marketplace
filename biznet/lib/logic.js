@@ -25,9 +25,9 @@ async function placeBid(placeBidTransaction) {
     newBid.listing = listing;
     newBid.user = user;
 
-    await getAssetRegistry('org.rec.User')
+    await getParticipantRegistry('org.rec.User')
         .then(registry => registry.update(user));
-    await getAssetRegistry('org.rec.Listing')
+    await getAssetRegistry('org.rec.CoinListing')
         .then(registry => registry.update(listing));
     await getAssetRegistry('org.rec.Bid')
         .then(registry => registry.add(newBid));
