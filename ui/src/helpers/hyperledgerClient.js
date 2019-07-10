@@ -1,15 +1,34 @@
 // TODO: error handling
 // TODO: may be use path to simplify url constucting
 
-// TODO: this should be in some config file
+// TODO: these should be in some config file
 const API_ROOT = 'http://localhost:3000/';
+const BIZ_NET_DOMAIN = 'org.rec';
+
+/**
+ * Helper method to generate ids for assets. We need this because Composer does
+ * not automatically generate ids for new assets.
+ */
+function getRandomHash(length = 5) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 function parseJSON(response) {
     return response.json();
 }
 
-function buildRefString(model, idKey) {
-    return `${model['$class']}#${model[idKey]}`;
+function buildAssetRefString(assetName, id) {
+    return `resource:${BIZ_NET_DOMAIN}.${assetName}#${id}`;
+}
+
+function buildClassRefString(className) {
+    return `${BIZ_NET_DOMAIN}.${className}`;
 }
 
 function getIdFromRefString(refString) {
@@ -42,7 +61,9 @@ function post(type, data) {
 }
 
 export const hyperledgerClient = {
-    buildRefString,
+    getRandomHash,
+    buildAssetRefString,
+    buildClassRefString,
     getIdFromRefString,
     get,
     post,

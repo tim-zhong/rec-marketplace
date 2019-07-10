@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import _ from 'lodash';
 
 const initialState = {
+    requestState: {},
     entities: {
         byId: {},
     },
@@ -17,13 +18,16 @@ const buildBasicAssetReducer = actionTypes => {
         FETCH_ASSET_REQUEST,
         FETCH_ASSET_SUCCESS,
         FETCH_ASSET_FAILURE,
+        POST_ASSET_REQUEST,
+        POST_ASSET_SUCCESS,
+        POST_ASSET_FAILURE,
     } = actionTypes;
 
     return (state = initialState, action) => {
-        const { type, data, error } = action;
+        const { type, data } = action;
         switch (type) {
             case FETCH_ASSET_REQUEST:
-                return { ...state, fetching: true };
+                return { ...state, requestState: { busy: true } };
             case FETCH_ASSET_SUCCESS:
                 const entities = {
                     byId: {
@@ -32,9 +36,15 @@ const buildBasicAssetReducer = actionTypes => {
                     }
                 };
                 const result = _.union(state.result, data.result);
-                return { entities, result, success: true};
+                return { entities, result, requestState: { success: true } };
             case FETCH_ASSET_FAILURE:
-                return { ...state, error: error };
+                return { ...state, requestState: { failed: true } };
+            case POST_ASSET_REQUEST:
+                return { ...state, requestState: { busy: true } };
+            case POST_ASSET_SUCCESS:
+                return { ...state, requestState: { success: true } };
+            case POST_ASSET_FAILURE:
+                    return { ...state, requestState: { failed: true } };
             default:
                 return state;
         }

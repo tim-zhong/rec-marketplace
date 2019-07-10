@@ -56,9 +56,21 @@ export const fetchAsset = (assetName, ...rest) => dispatch => {
         .catch(
             error => {
                 dispatch(alertError(error));
-                dispatch({ type: FETCH_ASSET_FAILURE, error });
+                dispatch({ type: FETCH_ASSET_FAILURE });
             }
         );
+}
+
+const getAssetCreatorByAssetName = assetName => {
+    switch (assetName) {
+        case 'bid':
+            return {
+                actionTypes: assetConstants.BIDS,
+                create: assetService.createBid,
+            };
+        default:
+            throw new Error(`No matching creator for asset name: ${assetName}`);
+    }
 }
 
 /**
@@ -67,5 +79,27 @@ export const fetchAsset = (assetName, ...rest) => dispatch => {
  * @param {String} assetName - Name of the asset
  */
 export const createAsset = (assetName, ...rest) => dispatch => {
-    // TODO
+    const creator = getAssetCreatorByAssetName(assetName);
+
+    const {
+        POST_ASSET_REQUEST,
+        POST_ASSET_SUCCESS,
+        POST_ASSET_FAILURE,
+    } = creator.actionTypes;
+
+    // initiate request
+    dispatch({ type: POST_ASSET_REQUEST });
+
+    return creator.create(...rest)
+        .then(
+            data => {
+                dispatch({ type: POST_ASSET_SUCCESS, data });
+            }
+        )
+        .catch(
+            error => {
+                dispatch(alertError(error));
+                dispatch({ type: POST_ASSET_FAILURE, error });
+            }
+        );
 }

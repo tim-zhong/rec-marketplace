@@ -34,8 +34,26 @@ const fetchBidsByListing = listingId => {
         .catch(err => Promise.reject('Failed to fetch listed bids by listing.'));
 }
 
+/**
+ * Service function for fetching listed coins.
+ */
+const createBid = (bidPrice, listingId, userId) => {
+    const { getRandomHash, buildAssetRefString, buildClassRefString } = hyperledgerClient
+    const bidId = getRandomHash();
+    const listing = buildAssetRefString('CoinListing', listingId);
+    const user = buildAssetRefString('User', userId);
+
+    const data = { bidId, bidPrice, listing, user };
+    // TODO: move it to hyperledgerClient
+    data['$class'] = buildClassRefString('PlaceBid');
+
+    return hyperledgerClient.post('/PlaceBid', data);
+}
+
 export const assetService = {
     fetchActiveListings,
     fetchListedCoins,
     fetchBidsByListing,
+    
+    createBid,
 }
