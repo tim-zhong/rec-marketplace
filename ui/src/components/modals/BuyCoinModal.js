@@ -9,10 +9,13 @@ const formater = format({ prefix: '$' });
 class BuyCoinModal extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
+        const { listing, onSubmit, onCancel } = this.props;
         this.props.form.validateFields((err,values)=>{
             if (!err) {
                 const { bid } = values;
-                this.props.onSubmit(bid);
+                onSubmit(bid, listing.listingId);
+                // close the modal
+                onCancel();
             }
         });
     }
@@ -61,7 +64,7 @@ class BuyCoinModal extends React.Component {
                             <Col span={14} style={{ textAlign: 'right' }}>
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit">
-                                        Buy
+                                        PLACE BID
                                     </Button>
                                 </Form.Item>
                             </Col>

@@ -92,6 +92,8 @@ class ListingTable extends React.Component {
     }
     
     createColumns = () => {
+        const { isBidRequestBusy } = this.props;
+        const { selectedListing } = this.state;
         return [
             {
                 title: 'Id',
@@ -132,31 +134,35 @@ class ListingTable extends React.Component {
             {
                 title: 'Actions',
                 key: 'actions',
-                render: (text, record) => (
-                    <span>
-                        <Tooltip placement="left" title="View Details" mouseEnterDelay={1} >
+                render: (text, record) => {
+                    const isBuyButtonDistabled = isBidRequestBusy && selectedListing.listingId === record.listingId;
+                    return (
+                        <span>
+                            <Tooltip placement="left" title="View Details" mouseEnterDelay={1} >
+                                <button
+                                    className="button-link button-link--colored"
+                                    onClick={this.handleDetailsClick.bind(this, record)}
+                                >
+                                        <Icon type="eye" />
+                                </button>
+                            </Tooltip>
+                            <Divider type="vertical" />
                             <button
                                 className="button-link button-link--colored"
-                                onClick={this.handleDetailsClick.bind(this, record)}
+                                onClick={this.handleBuyClick.bind(this, record)}
+                                disabled={isBuyButtonDistabled}
                             >
-                                    <Icon type="eye" />
+                                {isBuyButtonDistabled ?  <Icon type="loading" /> : 'Buy'}
                             </button>
-                        </Tooltip>
-                        <Divider type="vertical" />
-                        <button
-                            className="button-link button-link--colored"
-                            onClick={this.handleBuyClick.bind(this, record)}
-                        >
-                            Buy
-                        </button>
-                    </span>
-                ),
+                        </span>
+                    );
+                },
             },
         ];
     }
 
     render() {
-        const { listings, isDataReady, onPlaceBid } = this.props;
+        const { listings, isDataReady, onPlaceBid, isBidRequestBusy } = this.props;
         const { selectedListing, isCoinDetailsModalOpen, isBuyCoinModalOpen } = this.state;
 
         return(
@@ -178,7 +184,7 @@ class ListingTable extends React.Component {
                             coin={selectedListing.coin}
                         />
                         <BuyCoinModal
-                            isOpen={isBuyCoinModalOpen}
+                            isOpen={isBuyCoinModalOpen && !isBidRequestBusy}
                             onCancel={this.handleModelCancel}
                             listing={selectedListing}
                             bids={this.getBidsForSelectedListing()}
@@ -193,8 +199,10 @@ class ListingTable extends React.Component {
 
 const mapStateToProps = state => ({
     listings: listingsWithCoinDataSelector(state),
-    isDataReady: state.assets.listings.success && state.assets.coins.success,
+    isDataReady: state.assets.listings.requestState.success
+        && state.assets.coins.requestState.success,
     bids: bidsSelector(state),
+    isBidRequestBusy: state.assets.bids.requestState.busy,
 });
 
 export default connect(mapStateToProps, {})(ListingTable);

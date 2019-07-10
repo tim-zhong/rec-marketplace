@@ -18,7 +18,7 @@ class HomePage extends React.Component {
 
     fetchBidsByListing = listingId => this.props.fetchAsset('bidsByListing', listingId);
 
-    postBid = bidPrice => this.prop.createAsset('bid', bidPrice);
+    postBid = (bidPrice, listingId) => this.props.createAsset('bid', bidPrice, listingId, this.props.user.userId);
 
     render() {
         const { user } = this.props;
