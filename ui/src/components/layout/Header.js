@@ -12,7 +12,7 @@ const userMenu = (
 );
 
 const Header = props => (
-    <header className="header">
+    <header className={`header ${props.className}`}>
         <Row className="header__inner">
             <Col span={6} className="header__logo">
             <Link to="/">REC SYSTEM</Link>
