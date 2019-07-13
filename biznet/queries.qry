@@ -18,3 +18,24 @@ query selectListedCoins {
         SELECT org.rec.Coin
             WHERE (state == "LISTED")
 }
+
+query selectCoinsByUser {
+    description: "Select all coins belong to a user"
+    statement:
+        SELECT org.rec.Coin
+            WHERE (owner == _$user)
+}
+
+query selectListingsByUser {
+    description: "Select all listings belong to a user"
+    statement:
+        SELECT org.rec.CoinListing
+            WHERE (user == _$user)
+}
+
+query selectBidsByUser {
+    description: "Select all listings belong to a user"
+    statement:
+        SELECT org.rec.Bid
+            WHERE (user == _$user)
+}
