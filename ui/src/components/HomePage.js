@@ -25,7 +25,7 @@ class HomePage extends React.Component {
         return (
             <Layout>
                 <Header user={user} selected="home" />
-                <Content>
+                <Content offset={0}>
                     <h1>Coins Listed For Sale</h1>
                     <ListingTable
                         fetchBidsByListing={this.fetchBidsByListing}

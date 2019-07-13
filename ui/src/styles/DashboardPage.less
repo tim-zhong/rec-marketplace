@@ -1,0 +1,43 @@
+@import './constants.less';
+
+.dashboard {
+    &__sider {
+        box-shadow: @shadow1;
+        padding-left: @spacing4;
+        padding-right: 0;
+    }
+
+    &__balance {
+        text-align: center;
+        margin-bottom: @spacing4;
+    }
+
+    &__nav {
+        &__item {
+            box-sizing: border-box;
+            text-align: center;
+            padding: @spacing2;
+            border-right: 8px solid transparent;
+
+            &:hover {
+                background-color: @gray1;
+            }
+
+            &__title {
+                font-weight: normal;
+            }
+
+            &--active {
+                border-right: 8px solid @primary-color;
+                
+                .ant-statistic-content {
+                    color: @primary-color;
+                }
+            }
+            
+            &--active &__title {
+                color: @primary-color;
+            }
+        }
+    }
+}
