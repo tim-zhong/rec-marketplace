@@ -75,6 +75,7 @@ asset CoinListing identified by listingId {
     o Double minPrice
     o ListingState state default = 'ACTIVE'
     --> Coin coin
+    --> User user
 }
 
 asset Bid identified by bidId {

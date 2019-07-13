@@ -55,6 +55,7 @@ async function listCoin(listCoinTransaction) {
         'CoinListing',
         listingId
     );
+    newListing.user = coin.owner;
     newListing.coin = coin;
     newListing.minPrice = minPrice;
 
