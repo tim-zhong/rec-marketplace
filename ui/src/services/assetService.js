@@ -17,6 +17,17 @@ const fetchActiveListings = () => {
 }
 
 /**
+ * Service function for fetching coin listings for a user.
+ */
+const fetchListingsByUser = userId => {
+    const { buildAssetRefString } = hyperledgerClient;
+    const user = buildAssetRefString('User', userId);
+    return hyperledgerClient.get('/queries/selectListingsByUser', { user })
+        .then(listings => normalize(listings, [listingSchema]))
+        .catch(err => Promise.reject('Failed to fetch listing.'));
+}
+
+/**
  * Service function for fetching listed coins.
  */
 const fetchListedCoins = () => {
@@ -26,12 +37,34 @@ const fetchListedCoins = () => {
 }
 
 /**
+ * Service function for fetching coins belong to a user.
+ */
+const fetchCoinsByUser = userId => {
+    const { buildAssetRefString } = hyperledgerClient;
+    const user = buildAssetRefString('User', userId);
+    return hyperledgerClient.get('/queries/selectCoinsByUser', {user})
+        .then(coins => normalize(coins, [coinSchema]))
+        .catch(err => Promise.reject('Failed to fetch coins by user.'));
+}
+
+/**
  * Service function for fetching listed coins.
  */
 const fetchBidsByListing = listingId => {
     return hyperledgerClient.get('/Bid', { filter: {'WHERE': {'listing': listingId}}})
         .then(bids => normalize(bids, [bidSchema]))
         .catch(err => Promise.reject('Failed to fetch listed bids by listing.'));
+}
+
+/**
+ * Service function for fetching listed coins.
+ */
+const fetchBidsByUser = userId => {
+    const { buildAssetRefString } = hyperledgerClient;
+    const user = buildAssetRefString('User', userId);
+    return hyperledgerClient.get('/queries/selectBidsByUser', { user })
+        .then(bids => normalize(bids, [bidSchema]))
+        .catch(err => Promise.reject('Failed to fetch bids by user.'));
 }
 
 /**
@@ -52,8 +85,11 @@ const createBid = (bidPrice, listingId, userId) => {
 
 export const assetService = {
     fetchActiveListings,
+    fetchListingsByUser,
     fetchListedCoins,
+    fetchCoinsByUser,
     fetchBidsByListing,
+    fetchBidsByUser,
     
     createBid,
 }

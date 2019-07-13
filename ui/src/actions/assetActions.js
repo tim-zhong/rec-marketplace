@@ -15,15 +15,30 @@ const getDataFetcherByAssetName = assetName => {
                 actionTypes: assetConstants.LISTINGS,
                 fetch: assetService.fetchActiveListings,
             };
+        case 'listingsByUser':
+            return {
+                actionTypes: assetConstants.LISTINGS,
+                fetch: assetService.fetchListingsByUser,
+            };
         case 'listedCoins':
             return {
                 actionTypes: assetConstants.COINS,
                 fetch: assetService.fetchListedCoins,
             };
+        case 'coinsByUser':
+            return {
+                actionTypes: assetConstants.COINS,
+                fetch: assetService.fetchCoinsByUser,
+            };
         case 'bidsByListing':
             return {
                 actionTypes: assetConstants.BIDS,
                 fetch: assetService.fetchBidsByListing,
+            }
+        case 'bidsByUser':
+            return {
+                actionTypes: assetConstants.BIDS,
+                fetch: assetService.fetchBidsByUser,
             }
         default:
             throw new Error(`No matching fetcher for asset name: ${assetName}`);

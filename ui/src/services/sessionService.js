@@ -7,7 +7,7 @@ import { hyperledgerClient } from '../helpers/hyperledgerClient';
  * @param {String} password 
  */
 function login(username, password) {
-    return hyperledgerClient.get('/User', { where: { firstName: username }})
+    return hyperledgerClient.get('/User', { filter: { where: { firstName: username }}})
         .then(users => {
             if (users.length > 0) {
                 // store user details and token in local storage to keep user logged in between page refreshes
