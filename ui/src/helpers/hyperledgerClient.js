@@ -37,7 +37,11 @@ function getIdFromRefString(refString) {
 
 function get(path, params = {}) {
     const query = Object.keys(params)
-        .map(key => key + '=' + JSON.stringify(params[key]).replace('#', '%23'))
+        .map(key => key + '=' +
+            (typeof params[key] === 'object'
+                ? JSON.stringify(params[key]).replace('#', '%23')
+                : params[key]).replace('#', '%23')
+        )
         .join('&');
 
     return new Promise((resolve, reject) => {
