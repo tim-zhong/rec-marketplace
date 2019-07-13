@@ -9,6 +9,7 @@ import _ from 'lodash';
 
 const { getIdFromRefString } = hyperledgerClient;
 
+const userSelector = state => state.session.user;
 const listingIdsSelector = state => state.assets.listings.result;
 const listingDataSelector = state => state.assets.listings.entities.byId;
 const coinIdsSelector = state => state.assets.coins.result;
@@ -22,6 +23,14 @@ const bidDataSelector = state => state.assets.bids.entities.byId;
 export const listingsSelector = createSelector(
     [listingIdsSelector, listingDataSelector],
     (ids, data) => _.map(ids, id => ({...data[id], key: id}))
+);
+
+/**
+ * listingsByUserSelector return an array that contains all the listings belong to a user
+ */
+export const listingsByUserSelector = createSelector(
+    [listingsSelector, userSelector],
+    (listings, user) => _.filter(listings, listing => getIdFromRefString(listing.user) === user.userId)
 );
 
 /**
@@ -47,9 +56,25 @@ export const coinsSelector = createSelector(
 );
 
 /**
+ * coinsByUserSelector return an array that contains all the coins belong to a user
+ */
+export const coinsByUserSelector = createSelector(
+    [coinsSelector, userSelector],
+    (coins, user) => _.filter(coins, coin => getIdFromRefString(coin.owner) === user.userId)
+)
+
+/**
  * bidsSelector return an array that contains all the bids in the store.
  */
 export const bidsSelector = createSelector(
     [bidIdsSelector, bidDataSelector],
     (ids, data) => _.map(ids, id => ({...data[id], key: id}))
+);
+
+/**
+ * bidsByUserSelector return an array that contains all the bids belong to a user
+ */
+export const bidsByUserSelector = createSelector(
+    [bidsSelector, userSelector],
+    (bids, user) => _.filter(bids, bid => getIdFromRefString(bid.user) === user.userId)
 );
