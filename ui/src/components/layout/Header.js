@@ -12,7 +12,7 @@ const userMenu = (
 );
 
 const Header = props => (
-    <header className={`header ${props.className}`}>
+    <header className={`header ${props.className || ''}`}>
         <Row className="header__inner">
             <Col span={6} className="header__logo">
             <Link to="/">REC SYSTEM</Link>
@@ -28,7 +28,7 @@ const Header = props => (
                         <Link to="/">Marketplace</Link>
                     </Menu.Item>
                     <Menu.Item key="dashboard">
-                        <Link to="/dashboard">My Dashboard</Link>
+                        <Link to="/dashboard/coins">My Dashboard</Link>
                     </Menu.Item>
                 </Menu> 
             </Col>
