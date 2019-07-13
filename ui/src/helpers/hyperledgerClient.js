@@ -35,13 +35,13 @@ function getIdFromRefString(refString) {
     return refString.split('#')[1] || '';
 }
 
-function get(path, filter) {
-    const filterString = filter
-        ? `?filter=${JSON.stringify(filter).replace('#', '%23')}`
-        : '';
+function get(path, params = {}) {
+    const query = Object.keys(params)
+        .map(key => key + '=' + JSON.stringify(params[key]).replace('#', '%23'))
+        .join('&');
 
     return new Promise((resolve, reject) => {
-        return fetch(`${API_ROOT}api${path}${filterString}`, {accpet: 'application/json'})
+        return fetch(`${API_ROOT}api${path}?${query}`, {accpet: 'application/json'})
             .then(parseJSON)
             .then(resolve)
     });
