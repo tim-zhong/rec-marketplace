@@ -39,7 +39,7 @@ async function placeBid(placeBidTransaction) {
  * @transaction
  */
 async function listCoin(listCoinTransaction) {
-    const { coin, listingId } = listCoinTransaction;
+    const { coin, listingId, minPrice } = listCoinTransaction;
     
     if (coin.state === 'LISTED') {
         throw new Error('Cannot list a listed coin');
