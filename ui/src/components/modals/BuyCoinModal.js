@@ -15,13 +15,20 @@ class BuyCoinModal extends React.Component {
                 const { bid } = values;
                 onSubmit(bid, listing.listingId);
                 // close the modal
-                onCancel();
+                this.handleCancel();
             }
         });
     }
 
+    handleCancel = () => {
+        const { onCancel, form: { resetFields } } = this.props;
+        // clear fields
+        resetFields();
+        onCancel();
+    }
+
     render() {
-        const { bids, listing, isOpen, onCancel, form: { getFieldDecorator } } = this.props;
+        const { bids, listing, isOpen, form: { getFieldDecorator } } = this.props;
         const sortedBids = _.sortBy(bids, ['bidPrice']);
         const numBids = sortedBids.length;
         const startingBid = listing.minPrice;
@@ -33,7 +40,7 @@ class BuyCoinModal extends React.Component {
                 className="coin-details-modal"
                 title="Buy Coin"
                 visible={isOpen}
-                onCancel={onCancel}
+                onCancel={this.handleCancel}
                 footer={null}
             >
                 <div className="coin-details-modal__info-container">
