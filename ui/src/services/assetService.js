@@ -98,6 +98,20 @@ const createBid = (bidPrice, listingId, userId) => {
     return hyperledgerClient.post('/PlaceBid', data);
 }
 
+/**
+ * Service function for cancelling coins.
+ */
+const cancelCoin = coinId => {
+    const { buildAssetRefString, buildClassRefString } = hyperledgerClient;
+    const coin = buildAssetRefString('Coin', coinId);
+
+    const data = { coin };
+    // TODO: move it to hyperledgerClient
+    data['$class'] = buildClassRefString('CancelCoin');
+
+    return hyperledgerClient.post('/CancelCoin', data);
+}
+
 export const assetService = {
     fetchActiveListings,
     fetchListingsByUser,
@@ -108,4 +122,5 @@ export const assetService = {
     
     createListing,
     createBid,
+    cancelCoin,
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAsset, createAsset } from '../actions/assetActions';
+import { fetchAsset, createAssetOrTransaction } from '../actions/assetActions';
 import {
     coinsByUserSelector,
     listingsByUserSelector,
@@ -32,13 +32,23 @@ class DashboardPage extends React.Component {
     }
 
     sellCoin = (minPrice, coinId) => {
-        const { user, createAsset, fetchAsset } = this.props;
-        const sellCoinPromise = createAsset('listing', minPrice, coinId, user.userId);
-        sellCoinPromise.then(() => {
-            // update assets data
-            fetchAsset('coinsByUser', user.userId);
-            fetchAsset('listingsByUser', user.userId);
-        });
+        const { user, createAssetOrTransaction, fetchAsset } = this.props;
+        createAssetOrTransaction('listing', minPrice, coinId, user.userId)
+            .then(() => {
+                // update assets data
+                fetchAsset('coinsByUser', user.userId);
+                fetchAsset('listingsByUser', user.userId);
+            });
+    }
+
+    cancelCoin = coinId => {
+        const { user, createAssetOrTransaction, fetchAsset } = this.props;
+        createAssetOrTransaction('cancelCoin', coinId)
+            .then(() => {
+                // update assets data
+                fetchAsset('coinsByUser', user.userId);
+                fetchAsset('listingsByUser', user.userId);
+            });
     }
 
     isRouteActive = routeKey => _.last(window.location.href.split('/')) === routeKey;
@@ -91,7 +101,12 @@ class DashboardPage extends React.Component {
                 }
                 {isDataReady &&
                     <Content>
-                        <PrivateRoute exact path={`${match.path}/coins`} component={MyCoinsTable} componentProps={{ coins, sellCoin: this.sellCoin }}/>
+                        <PrivateRoute 
+                            exact
+                            path={`${match.path}/coins`}
+                            component={MyCoinsTable}
+                            componentProps={{ coins, sellCoin: this.sellCoin, cancelCoin: this.cancelCoin }}
+                        />
                         <PrivateRoute exact path={`${match.path}/listings`} component={MyListingsTable} />
                         <PrivateRoute exact path={`${match.path}/bids`} component={MyBidsTable} />
                     </Content>
@@ -114,5 +129,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     fetchAsset,
-    createAsset,
+    createAssetOrTransaction,
 })(DashboardPage);

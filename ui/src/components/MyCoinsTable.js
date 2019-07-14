@@ -1,9 +1,11 @@
 import React from 'react';
-import { Button, Tag, Table, Tooltip, Icon, Divider } from 'antd';
+import { Button, Tag, Table, Tooltip, Icon, Divider, Modal } from 'antd';
 import _ from 'lodash';
 import CoinDetailsModal from './modals/CoinDetailsModal';
 import ListDetailsModal from './modals/ListCoinModal';
 import '../styles/MyCoinsTable.less';
+
+const { confirm } = Modal;
 
 class MyCoinsTable extends React.Component {
     state = {
@@ -45,9 +47,20 @@ class MyCoinsTable extends React.Component {
     handleCancelClick = record => {
         this.setState({
             selectedCoin: record,
-            isCancelCoinModalOpen: true,
-        });
+        }, this.showConcelConfirm.bind(this, record));
     }
+
+    showConcelConfirm = record => {
+        const { cancelCoin } = this.props;
+        confirm({
+          title: 'Are you sure you want to cancel this coin?',
+          content: 'This process cannot be undone.',
+          okText: 'Yes. Cancel Coin',
+          okType: 'danger',
+          cancelText: 'No. Keep Coin',
+          onOk: cancelCoin.bind(this, record.coinId),
+        });
+      }
 
     handleModelCancel = () => {
         this.setState({
@@ -147,6 +160,13 @@ class MyCoinsTable extends React.Component {
                                         <Icon type="eye" />
                                 </button>
                             </Tooltip>
+                            <Divider type="vertical" />
+                            <button
+                                className="button-link button-link--colored"
+                                onClick={this.handleCancelClick.bind(this, record)}
+                            >
+                                Cancel
+                            </button>
                             {isCoinActive &&
                                 <span>
                                     <Divider type="vertical" />
@@ -158,13 +178,6 @@ class MyCoinsTable extends React.Component {
                                     </button>
                                 </span>
                             }
-                            <Divider type="vertical" />
-                            <button
-                                className="button-link button-link--colored"
-                                onClick={this.handleCancelClick.bind(this, record)}
-                            >
-                                Cancel
-                            </button>
                         </span>
                     );
                 },
