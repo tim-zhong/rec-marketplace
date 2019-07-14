@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchAsset, createAsset } from '../actions/assetActions';
+import { fetchAsset, createAssetOrTransaction } from '../actions/assetActions';
 import Layout from './layout/Layout';
 import ListingTable from './ListingTable';
 
@@ -18,7 +18,8 @@ class HomePage extends React.Component {
 
     fetchBidsByListing = listingId => this.props.fetchAsset('bidsByListing', listingId);
 
-    postBid = (bidPrice, listingId) => this.props.createAsset('bid', bidPrice, listingId, this.props.user.userId);
+    postBid = (bidPrice, listingId) =>
+        this.props.createAssetOrTransaction('bid', bidPrice, listingId, this.props.user.userId);
 
     render() {
         const { user } = this.props;
@@ -44,5 +45,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     fetchAsset,
-    createAsset,
+    createAssetOrTransaction,
 })(HomePage);

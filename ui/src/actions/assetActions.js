@@ -76,8 +76,8 @@ export const fetchAsset = (assetName, ...rest) => dispatch => {
         );
 }
 
-const getAssetCreatorByAssetName = assetName => {
-    switch (assetName) {
+const getCreatorByName = name => {
+    switch (name) {
         case 'bid':
             return {
                 actionTypes: assetConstants.BIDS,
@@ -88,18 +88,27 @@ const getAssetCreatorByAssetName = assetName => {
                 actionTypes: assetConstants.LISTINGS,
                 create: assetService.createListing,
             };
+        case 'cancelCoin':
+            return {
+                // For transactions, use action types of the assets that
+                // is the most relevent to the transaction
+                actionTypes: assetConstants.COINS,
+                create: assetService.cancelCoin,
+            }
         default:
-            throw new Error(`No matching creator for asset name: ${assetName}`);
+            throw new Error(`No matching creator for asset/transaction name: ${name}`);
     }
 }
 
 /**
  * Create assets of a given type.
+ * Since the request logic are very similat, I decided not to
+ * write seperate actions for assets and transactions.
  * Relies on Redux Thunk middleware.
- * @param {String} assetName - Name of the asset
+ * @param {String} name - Name of the asset / transaction
  */
-export const createAsset = (assetName, ...rest) => dispatch => {
-    const creator = getAssetCreatorByAssetName(assetName);
+export const createAssetOrTransaction = (name, ...rest) => dispatch => {
+    const creator = getCreatorByName(name);
 
     const {
         POST_ASSET_REQUEST,
