@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { hyperledgerClient } from '../helpers/hyperledgerClient';
-import { bidsSelector, listingsWithCoinDataSelector } from '../selectors';
+import { bidsSelector, activeListingsWithCoinDataSelector } from '../selectors';
 import { Button, Divider, Icon, Table, Tooltip } from 'antd';
 import CoinDetailsModal from './modals/CoinDetailsModal';
 import BuyCoinModal from './modals/BuyCoinModal';
@@ -198,7 +198,7 @@ class ListingTable extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    listings: listingsWithCoinDataSelector(state),
+    listings: activeListingsWithCoinDataSelector(state),
     isDataReady: state.assets.listings.requestState.success
         && state.assets.coins.requestState.success,
     bids: bidsSelector(state),

@@ -26,11 +26,34 @@ export const listingsSelector = createSelector(
 );
 
 /**
+ * ActiveListingsSelector return an array that contains all the active listings in the store.
+ */
+export const activeListingsSelector = createSelector(
+    [listingsSelector],
+    listings => _.filter(listings, listing => listing.state === 'ACTIVE')
+);
+
+/**
  * listingsByUserSelector return an array that contains all the listings belong to a user
  */
 export const listingsByUserSelector = createSelector(
     [listingsSelector, userSelector],
     (listings, user) => _.filter(listings, listing => getIdFromRefString(listing.user) === user.userId)
+);
+
+/**
+ * activeListingsWithCoinDataSelector return an array that contains all the active
+ * listings in the store. It also decorates the 'coin' field in each listing with the
+ * actual coin data.
+ */
+export const activeListingsWithCoinDataSelector = createSelector(
+    [coinDataSelector, activeListingsSelector],
+    (coinData, listings) => {
+        return _.map(
+            listings,
+            listing => ({...listing, coin: coinData[getIdFromRefString(listing.coin)]})
+        );
+    }
 );
 
 /**
