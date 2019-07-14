@@ -68,7 +68,22 @@ const fetchBidsByUser = userId => {
 }
 
 /**
- * Service function for fetching listed coins.
+ * Service function for creating coin listings.
+ */
+const createListing = (minPrice, coinId) => {
+    const { getRandomHash, buildAssetRefString, buildClassRefString } = hyperledgerClient;
+    const listingId = getRandomHash();
+    const coin = buildAssetRefString('Coin', coinId);
+
+    const data = { listingId, minPrice, coin };
+    // TODO: move it to hyperledgerClient
+    data['$class'] = buildClassRefString('ListCoin');
+
+    return hyperledgerClient.post('/ListCoin', data);
+}
+
+/**
+ * Service function for creating bids.
  */
 const createBid = (bidPrice, listingId, userId) => {
     const { getRandomHash, buildAssetRefString, buildClassRefString } = hyperledgerClient;
@@ -91,5 +106,6 @@ export const assetService = {
     fetchBidsByListing,
     fetchBidsByUser,
     
+    createListing,
     createBid,
 }

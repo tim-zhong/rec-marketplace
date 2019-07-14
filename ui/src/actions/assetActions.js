@@ -83,6 +83,11 @@ const getAssetCreatorByAssetName = assetName => {
                 actionTypes: assetConstants.BIDS,
                 create: assetService.createBid,
             };
+        case 'listing':
+            return {
+                actionTypes: assetConstants.LISTINGS,
+                create: assetService.createListing,
+            };
         default:
             throw new Error(`No matching creator for asset name: ${assetName}`);
     }

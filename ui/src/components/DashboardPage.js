@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAsset } from '../actions/assetActions';
+import { fetchAsset, createAsset } from '../actions/assetActions';
 import {
     coinsByUserSelector,
     listingsByUserSelector,
@@ -29,6 +29,16 @@ class DashboardPage extends React.Component {
         fetchAsset('coinsByUser', user.userId);
         fetchAsset('listingsByUser', user.userId);
         fetchAsset('bidsByUser', user.userId);
+    }
+
+    sellCoin = (minPrice, coinId) => {
+        const { user, createAsset, fetchAsset } = this.props;
+        const sellCoinPromise = createAsset('listing', minPrice, coinId, user.userId);
+        sellCoinPromise.then(() => {
+            // update assets data
+            fetchAsset('coinsByUser', user.userId);
+            fetchAsset('listingsByUser', user.userId);
+        });
     }
 
     isRouteActive = routeKey => _.last(window.location.href.split('/')) === routeKey;
@@ -81,7 +91,7 @@ class DashboardPage extends React.Component {
                 }
                 {isDataReady &&
                     <Content>
-                        <PrivateRoute exact path={`${match.path}/coins`} component={MyCoinsTable} componentProps={{ coins }}/>
+                        <PrivateRoute exact path={`${match.path}/coins`} component={MyCoinsTable} componentProps={{ coins, sellCoin: this.sellCoin }}/>
                         <PrivateRoute exact path={`${match.path}/listings`} component={MyListingsTable} />
                         <PrivateRoute exact path={`${match.path}/bids`} component={MyBidsTable} />
                     </Content>
@@ -104,4 +114,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     fetchAsset,
+    createAsset,
 })(DashboardPage);

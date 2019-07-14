@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Tag, Table, Tooltip, Icon } from 'antd';
+import { Button, Tag, Table, Tooltip, Icon, Divider } from 'antd';
 import _ from 'lodash';
 import CoinDetailsModal from './modals/CoinDetailsModal';
+import ListDetailsModal from './modals/ListCoinModal';
 import '../styles/MyCoinsTable.less';
 
 class MyCoinsTable extends React.Component {
@@ -10,6 +11,7 @@ class MyCoinsTable extends React.Component {
         sortedInfo: {},
         isCoinDetailsModalOpen: false,
         isListCoinModalOpen: false,
+        isCancelCoinModalOpen: false,
         selectedCoin: {},
     }
 
@@ -40,10 +42,18 @@ class MyCoinsTable extends React.Component {
         });
     }
 
+    handleCancelClick = record => {
+        this.setState({
+            selectedCoin: record,
+            isCancelCoinModalOpen: true,
+        });
+    }
+
     handleModelCancel = () => {
         this.setState({
             isCoinDetailsModalOpen: false,
-            isBuyCoinModalOpen: false,
+            isListCoinModalOpen: false,
+            isCancelCoinModalOpen: false,
         });
     }
 
@@ -126,6 +136,7 @@ class MyCoinsTable extends React.Component {
                 title: 'Actions',
                 key: 'actions',
                 render: (text, record) => {
+                    const isCoinActive = record.state === 'ACTIVE';
                     return (
                         <span>
                             <Tooltip placement="left" title="View Details" mouseEnterDelay={1} >
@@ -136,6 +147,24 @@ class MyCoinsTable extends React.Component {
                                         <Icon type="eye" />
                                 </button>
                             </Tooltip>
+                            {isCoinActive &&
+                                <span>
+                                    <Divider type="vertical" />
+                                    <button
+                                        className="button-link button-link--colored"
+                                        onClick={this.handleListClick.bind(this, record)}
+                                    >
+                                        Sell
+                                    </button>
+                                </span>
+                            }
+                            <Divider type="vertical" />
+                            <button
+                                className="button-link button-link--colored"
+                                onClick={this.handleCancelClick.bind(this, record)}
+                            >
+                                Cancel
+                            </button>
                         </span>
                     );
                 },
@@ -144,8 +173,8 @@ class MyCoinsTable extends React.Component {
     }
 
     render() {
-        const { coins } = this.props;
-        const { selectedCoin, isCoinDetailsModalOpen } = this.state;
+        const { coins, sellCoin } = this.props;
+        const { selectedCoin, isCoinDetailsModalOpen, isListCoinModalOpen } = this.state;
         return (
             <div className="my-coins">
                 <h1>My Coins</h1>
@@ -162,6 +191,12 @@ class MyCoinsTable extends React.Component {
                     isOpen={isCoinDetailsModalOpen}
                     onCancel={this.handleModelCancel}
                     coin={selectedCoin}
+                />
+                <ListDetailsModal
+                    isOpen={isListCoinModalOpen}
+                    onCancel={this.handleModelCancel}
+                    coin={selectedCoin}
+                    onSubmit={sellCoin}
                 />
             </div>
         )

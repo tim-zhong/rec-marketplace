@@ -9,7 +9,7 @@ const formater = format({ prefix: '$' });
 class BuyCoinModal extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
-        const { listing, onSubmit, onCancel } = this.props;
+        const { listing, onSubmit } = this.props;
         this.props.form.validateFields((err,values)=>{
             if (!err) {
                 const { bid } = values;
