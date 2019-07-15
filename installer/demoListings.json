@@ -7,35 +7,40 @@
             "listingId": "0000",
             "minPrice": 10.00,
             "coin": "resource:org.rec.Coin#0000",
-            "user": "resource:org.rec.User#user-alice"
+            "user": "resource:org.rec.User#user-alice",
+            "bidPrices": [13, 14]
         },
         {
             "$class": "org.rec.CoinListing",
             "listingId": "0001",
             "minPrice": 11.00,
             "coin": "resource:org.rec.Coin#0001",
-            "user": "resource:org.rec.User#user-alice"
+            "user": "resource:org.rec.User#user-alice",
+            "bidPrices": [13]
         },
         {
             "$class": "org.rec.CoinListing",
             "listingId": "0002",
             "minPrice": 12.00,
             "coin": "resource:org.rec.Coin#0002",
-            "user": "resource:org.rec.User#user-alice"
+            "user": "resource:org.rec.User#user-alice",
+            "bidPrices": []
         },
         {
             "$class": "org.rec.CoinListing",
             "listingId": "0003",
             "minPrice": 13.00,
             "coin": "resource:org.rec.Coin#0003",
-            "user": "resource:org.rec.User#user-alice"
+            "user": "resource:org.rec.User#user-alice",
+            "bidPrices": []
         },
         {
             "$class": "org.rec.CoinListing",
             "listingId": "0004",
             "minPrice": 15.00,
             "coin": "resource:org.rec.Coin#0004",
-            "user": "resource:org.rec.User#user-alice"
+            "user": "resource:org.rec.User#user-alice",
+            "bidPrices": []
         }
     ]
 }

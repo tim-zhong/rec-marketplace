@@ -14,6 +14,7 @@ async function placeBid(placeBidTransaction) {
     }
 
     user.balance -= bidPrice;
+    listing.bidPrices.push(bidPrice);
 
 	const factory = getFactory();
 	const newBid = factory.newResource(

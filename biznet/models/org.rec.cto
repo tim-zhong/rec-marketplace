@@ -74,6 +74,7 @@ asset CoinListing identified by listingId {
     o String listingId
     o Double minPrice
     o ListingState state default = 'ACTIVE'
+    o Double[] bidPrices
     --> Coin coin
     --> User user
 }
