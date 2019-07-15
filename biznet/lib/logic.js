@@ -59,6 +59,7 @@ async function listCoin(listCoinTransaction) {
     newListing.user = coin.owner;
     newListing.coin = coin;
     newListing.minPrice = minPrice;
+    newListing.bidPrices = [];
 
     await getAssetRegistry('org.rec.Coin')
         .then(registry => registry.update(coin));
@@ -74,17 +75,74 @@ async function listCoin(listCoinTransaction) {
 async function cancelCoin(cancelCoinTransaction) {
     const { coin } = cancelCoinTransaction;
     
-    if (coin.sate === 'CANCELLED') {
-        throw new Error('Coin has already been cancelled');
+    if (coin.sate !== 'ACTIVE') {
+        throw new Error('Only active coins can be cancelled');
     }
     
     coin.state = 'CANCELLED';
-  	const coinResourceId = `resource:${coin.getFullyQualifiedIdentifier()}`;
-    const activeListings = await query('selectActiveListingsByCoin', { coin: coinResourceId });
-    activeListings.forEach(listing => Object.assign(listing, { state: 'CANCELLED' }));
+    await getAssetRegistry('org.rec.Coin')
+        .then(registry => registry.update(coin));
+}
+
+/**
+ * End a listing. The coin will be transferred to the highest bidder, and
+ * the money will be transferred from the higghest bidder to the seller.
+ * If there's no bidder, the listing is still considered ended and the state
+ * of the coin will be set to 'ACTIVE' again.
+ * @param {org.rec.EndListing} EndListing - the EndListing transaction
+ * @transaction
+ */
+async function endListing(endListingTransaction) {
+    const { listing } = endListingTransaction;
     
+    if (listing.state !== 'ACTIVE') {
+        throw new Error('Listing is not longer active');
+    }
+
+    let userRegistry;
+    await getParticipantRegistry('org.rec.User')
+        .then(registry => userRegistry = registry);
+    const coin = listing.coin;
+    const origianlOwner = coin.owner;
+
+    const listingResourceId = `resource:${listing.getFullyQualifiedIdentifier()}`;
+    const bids = await query('selectBidsByListing', { listing: listingResourceId });
+
+    let highestBid;
+    let highestBidder;
+    const updatedUsers = [origianlOwner];
+    for (const bid of bids) {
+        let bidder;
+        await userRegistry.get(bid.user.getIdentifier())
+            .then(user => bidder = user);
+        
+        if (!highestBid || bid.bidPrice > highestBid.bidPrice) {
+            highestBid = bid;
+            highestBidder = bidder;
+        }
+        // return the amount back to unsuccessful bidders;
+        bidder.balance += bid.bidPrice;
+        updatedUsers.push(bidder);
+        Object.assign(bid, { state: 'UNSUCCESSFUL' });
+    };
+
+    if (highestBid) {
+        const finalPrice = highestBid.bidPrice;
+        highestBid.state = 'SUCCESSFUL';
+        highestBidder.balance -= finalPrice;
+        origianlOwner.balance += finalPrice;
+        coin.owner = highestBid.user;
+    }
+
+    coin.state = 'ACTIVE';
+    listing.state = 'ENDED';
+
+    await getParticipantRegistry('org.rec.User')
+        .then(registry => registry.updateAll(updatedUsers));
+    await getAssetRegistry('org.rec.Bid')
+        .then(registry => registry.updateAll(bids));
     await getAssetRegistry('org.rec.CoinListing')
-        .then(registry => registry.updateAll(activeListings));
+        .then(registry => registry.update(listing));
     await getAssetRegistry('org.rec.Coin')
         .then(registry => registry.update(coin));
 }

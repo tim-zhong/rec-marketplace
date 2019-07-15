@@ -28,8 +28,14 @@ enum CoinState {
 
 enum ListingState {
     o ACTIVE
-    o SOLD
+    o ENDED
     o CANCELLED
+}
+
+enum BidState {
+    o SUBMITTED
+    o SUCCESSFUL
+    o UNSUCCESSFUL
 }
 
 participant User identified by userId {
@@ -82,6 +88,7 @@ asset CoinListing identified by listingId {
 asset Bid identified by bidId {
     o String bidId
     o Double bidPrice
+    o BidState state default = 'SUBMITTED'
     --> CoinListing listing
     --> User user
 }
@@ -100,5 +107,9 @@ transaction ListCoin {
 }
 
 transaction CancelCoin {
-     --> Coin coin
+    --> Coin coin
+}
+
+transaction EndListing {
+    --> CoinListing listing
 }

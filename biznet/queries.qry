@@ -1,41 +1,48 @@
 query selectActiveListings {
-    description: "Select all active listings"
+    description: "Select all the active listings"
     statement:
         SELECT org.rec.CoinListing
             WHERE (state == "ACTIVE")
 }
 
 query selectActiveListingsByCoin {
-    description: "Select all active listings of a coin"
+    description: "Select all the active listings of a coin"
     statement:
         SELECT org.rec.CoinListing
             WHERE (state == "ACTIVE" AND coin == _$coin)
 }
 
 query selectListedCoins {
-    description: "Select all listed coins"
+    description: "Select all the listed coins"
     statement:
         SELECT org.rec.Coin
             WHERE (state == "LISTED")
 }
 
 query selectCoinsByUser {
-    description: "Select all coins belong to a user"
+    description: "Select all the coins belong to a user"
     statement:
         SELECT org.rec.Coin
             WHERE (owner == _$user)
 }
 
 query selectListingsByUser {
-    description: "Select all listings belong to a user"
+    description: "Select all the listings belong to a user"
     statement:
         SELECT org.rec.CoinListing
             WHERE (user == _$user)
 }
 
 query selectBidsByUser {
-    description: "Select all listings belong to a user"
+    description: "Select all the listings belong to a user"
     statement:
         SELECT org.rec.Bid
             WHERE (user == _$user)
+}
+
+query selectBidsByListing {
+    description: "Select all the bids placed on a listing"
+    statement:
+        SELECT org.rec.Bid
+            WHERE (listing == _$listing)
 }
