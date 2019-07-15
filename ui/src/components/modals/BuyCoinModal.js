@@ -28,11 +28,12 @@ class BuyCoinModal extends React.Component {
     }
 
     render() {
-        const { bids, listing, isOpen, form: { getFieldDecorator } } = this.props;
-        const sortedBids = _.sortBy(bids, ['bidPrice']);
+        const { listing, isOpen, form: { getFieldDecorator } } = this.props;
+        const { bidPrices } = listing;
+        const sortedBids = _.sortBy(bidPrices);
         const numBids = sortedBids.length;
         const startingBid = listing.minPrice;
-        const highestBid = numBids ? sortedBids[numBids - 1].bidPrice : 0;
+        const highestBid = numBids ? _.last(sortedBids) : 0;
         const minBid = Math.max(highestBid, startingBid) + 1;
 
         return (

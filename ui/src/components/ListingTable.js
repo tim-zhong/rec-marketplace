@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { hyperledgerClient } from '../helpers/hyperledgerClient';
-import { bidsSelector, activeListingsWithCoinDataSelector } from '../selectors';
+import { activeListingsWithCoinDataSelector } from '../selectors';
 import { Button, Divider, Icon, Table, Tooltip } from 'antd';
 import CoinDetailsModal from './modals/CoinDetailsModal';
 import BuyCoinModal from './modals/BuyCoinModal';
@@ -32,7 +31,6 @@ class ListingTable extends React.Component {
     }
 
     handleBuyClick = record => {
-        this.props.fetchBidsByListing(record.listingId);
         this.setState({
             selectedListing: record,
             isBuyCoinModalOpen: true,
@@ -51,19 +49,6 @@ class ListingTable extends React.Component {
             filteredInfo: {},
             sortedInfo: {},
         });
-    }
-    
-    getBidsForSelectedListing = () => {
-        const { bids } = this.props;
-        const { selectedListing } = this.state; 
-        
-        // Although _.filter has a linear time complexity, the number of bids here is usually tiny
-        // as we only fetch a small number of bids each time. Will keep it for now until there's a
-        // better approach.
-        return _.filter(
-            bids,
-            (bid => hyperledgerClient.getIdFromRefString(bid.listing) === selectedListing.listingId)
-        );
     }
 
     createColumnFilter = (columnKey, path) => {
@@ -92,8 +77,6 @@ class ListingTable extends React.Component {
     }
     
     createColumns = () => {
-        const { isBidRequestBusy } = this.props;
-        const { selectedListing } = this.state;
         return [
             {
                 title: 'Id',
@@ -135,7 +118,6 @@ class ListingTable extends React.Component {
                 title: 'Actions',
                 key: 'actions',
                 render: (text, record) => {
-                    const isBuyButtonDistabled = isBidRequestBusy && selectedListing.listingId === record.listingId;
                     return (
                         <span>
                             <Tooltip placement="left" title="View Details" mouseEnterDelay={1} >
@@ -150,9 +132,8 @@ class ListingTable extends React.Component {
                             <button
                                 className="button-link button-link--colored"
                                 onClick={this.handleBuyClick.bind(this, record)}
-                                disabled={isBuyButtonDistabled}
                             >
-                                {isBuyButtonDistabled ?  <Icon type="loading" /> : 'Buy'}
+                                Buy
                             </button>
                         </span>
                     );
@@ -187,7 +168,6 @@ class ListingTable extends React.Component {
                             isOpen={isBuyCoinModalOpen && !isBidRequestBusy}
                             onCancel={this.handleModelCancel}
                             listing={selectedListing}
-                            bids={this.getBidsForSelectedListing()}
                             onSubmit={onPlaceBid}
                         />
                     </div>
@@ -201,8 +181,6 @@ const mapStateToProps = state => ({
     listings: activeListingsWithCoinDataSelector(state),
     isDataReady: state.assets.listings.requestState.success
         && state.assets.coins.requestState.success,
-    bids: bidsSelector(state),
-    isBidRequestBusy: state.assets.bids.requestState.busy,
 });
 
 export default connect(mapStateToProps, {})(ListingTable);

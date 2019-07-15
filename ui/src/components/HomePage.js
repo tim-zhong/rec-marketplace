@@ -16,8 +16,6 @@ class HomePage extends React.Component {
         this.props.fetchAsset('listedCoins');
     }
 
-    fetchBidsByListing = listingId => this.props.fetchAsset('bidsByListing', listingId);
-
     postBid = (bidPrice, listingId) =>
         this.props.createAssetOrTransaction('bid', bidPrice, listingId, this.props.user.userId);
 
@@ -28,10 +26,7 @@ class HomePage extends React.Component {
                 <Header user={user} selected="home" />
                 <Content offset={0}>
                     <h1>Coins Listed For Sale</h1>
-                    <ListingTable
-                        fetchBidsByListing={this.fetchBidsByListing}
-                        onPlaceBid={this.postBid}
-                    />
+                    <ListingTable onPlaceBid={this.postBid} />
                 </Content>
             </Layout>
         );

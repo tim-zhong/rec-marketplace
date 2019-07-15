@@ -30,11 +30,6 @@ const getDataFetcherByAssetName = assetName => {
                 actionTypes: assetConstants.COINS,
                 fetch: assetService.fetchCoinsByUser,
             };
-        case 'bidsByListing':
-            return {
-                actionTypes: assetConstants.BIDS,
-                fetch: assetService.fetchBidsByListing,
-            }
         case 'bidsByUser':
             return {
                 actionTypes: assetConstants.BIDS,

@@ -50,15 +50,6 @@ const fetchCoinsByUser = userId => {
 /**
  * Service function for fetching listed coins.
  */
-const fetchBidsByListing = listingId => {
-    return hyperledgerClient.get('/Bid', { filter: {'WHERE': {'listing': listingId}}})
-        .then(bids => normalize(bids, [bidSchema]))
-        .catch(err => Promise.reject('Failed to fetch listed bids by listing.'));
-}
-
-/**
- * Service function for fetching listed coins.
- */
 const fetchBidsByUser = userId => {
     const { buildAssetRefString } = hyperledgerClient;
     const user = buildAssetRefString('User', userId);
@@ -117,7 +108,6 @@ export const assetService = {
     fetchListingsByUser,
     fetchListedCoins,
     fetchCoinsByUser,
-    fetchBidsByListing,
     fetchBidsByUser,
     
     createListing,
