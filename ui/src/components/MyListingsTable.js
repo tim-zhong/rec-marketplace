@@ -139,7 +139,7 @@ class MyListingsTable extends React.Component {
         return (
             <div className="my-coins">
                 <h1>My Listings</h1>
-                <div className="my-coins__table-operations">
+                <div className="table-operations">
                     <Button onClick={this.clearAll}>Clear filters and sorters</Button>
                 </div>
                 <Table

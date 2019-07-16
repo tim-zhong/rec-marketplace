@@ -104,7 +104,7 @@ class MyBidsTable extends React.Component {
         return (
             <div className="my-bids">
                 <h1>My Bids</h1>
-                <div className="my-bids__table-operations">
+                <div className="table-operations">
                     <Button onClick={this.clearAll}>Clear filters and sorters</Button>
                 </div>
                 <Table

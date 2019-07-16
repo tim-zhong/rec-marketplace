@@ -5,7 +5,6 @@ import { Button, Divider, Icon, Table, Tooltip } from 'antd';
 import CoinDetailsModal from './modals/CoinDetailsModal';
 import BuyCoinModal from './modals/BuyCoinModal';
 import _ from 'lodash';
-import '../styles/ListingTable.less';
 
 class ListingTable extends React.Component {
     state = {
@@ -155,7 +154,7 @@ class ListingTable extends React.Component {
         return(
             <div className="listing-table">
                 <div className="listing-table__content">
-                    <div className="listing-table__operations">
+                    <div className="table-operations">
                         <Button onClick={this.clearAll}>Clear filters and sorters</Button>
                     </div>
                     <Table

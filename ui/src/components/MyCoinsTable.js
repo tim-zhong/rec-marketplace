@@ -3,7 +3,6 @@ import { Button, Tag, Table, Tooltip, Icon, Divider, Modal } from 'antd';
 import _ from 'lodash';
 import CoinDetailsModal from './modals/CoinDetailsModal';
 import ListDetailsModal from './modals/ListCoinModal';
-import '../styles/MyCoinsTable.less';
 
 const { confirm } = Modal;
 
@@ -195,7 +194,7 @@ class MyCoinsTable extends React.Component {
         return (
             <div className="my-coins">
                 <h1>My Coins</h1>
-                <div className="my-coins__table-operations">
+                <div className="table-operations">
                     <Button onClick={this.clearAll}>Clear filters and sorters</Button>
                 </div>
                 <Table
