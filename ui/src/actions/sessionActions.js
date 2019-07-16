@@ -31,6 +31,36 @@ export const login = (username, password) => dispatch => {
 }
 
 /**
+ * Re-fetch user data
+ * Relies on Redux Thunk middleware.
+ * @param {String} username 
+ * @param {String} password 
+ */
+export const refetchUser = () => dispatch => {
+    const {
+        REFETCH_USER_REQUEST,
+        REFETCH_USER_SUCCESS,
+        REFETCH_USER_FAILURE,
+    } = sessionConstants;
+    
+    // initiate request
+    dispatch({ type: REFETCH_USER_REQUEST });
+
+    sessionService.refetchUser()
+        .then(
+            user => {
+                dispatch({ type: REFETCH_USER_SUCCESS, user });
+            }
+        )
+        .catch(
+            error => {
+                dispatch({ type: REFETCH_USER_FAILURE, error });
+                dispatch(alertError(error));
+            }
+        );
+}
+
+/**
  * Logout user
  */
 export const logout = () => {

@@ -10,6 +10,7 @@ export function session(state = initialState, action) {
         LOGIN_SUCCESS,
         LOGIN_FAILURE,
         LOGOUT,
+        REFETCH_USER_SUCCESS,
     } = sessionConstants;
     switch (type) {
         case LOGIN_REQUEST:
@@ -20,6 +21,8 @@ export function session(state = initialState, action) {
             return {};
         case LOGOUT:
             return {};
+        case REFETCH_USER_SUCCESS:
+            return { ...state, user: action.user }
         default:
             return state;
     }
