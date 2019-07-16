@@ -129,6 +129,7 @@ class DashboardPage extends React.Component {
                             exact
                             path={`${match.path}/bids`}
                             component={MyBidsTable}
+                            componentProps={{ bids }}
                         />
                     </Content>
                 }
