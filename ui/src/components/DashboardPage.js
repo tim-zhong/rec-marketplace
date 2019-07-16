@@ -31,7 +31,12 @@ class DashboardPage extends React.Component {
 
     loadData = () => {
         const { user, fetchAsset, updateUserData, removeAllCoins } = this.props;
+        
+        // These two lines are for updating coins count after ending a list.
+        // Very hacky, I need to refactor this.
         removeAllCoins();
+        fetchAsset('listedCoins');
+        
         updateUserData();
         fetchAsset('coinsByUser', user.userId);
         fetchAsset('listingsByUser', user.userId);
@@ -61,7 +66,9 @@ class DashboardPage extends React.Component {
     endListing = listingId => {
         const { createAssetOrTransaction } = this.props;
         createAssetOrTransaction('endListing', listingId)
-            .then(this.loadData);
+            .then(() => {
+                this.loadData();
+            });
     }
 
     isRouteActive = routeKey => _.last(window.location.href.split('/')) === routeKey;
