@@ -66,10 +66,12 @@ class ListingTable extends React.Component {
         return { filters, onFilter, filteredValue };
     }
 
-    createColumnSorter = (columnKey, path) => {
+    createColumnSorter = (columnKey, path, sorterFn) => {
         let { sortedInfo } = this.state;
 
-        const sorter = (a, b) => _.get(a, path) - _.get(b, path);
+        const sorter = sorterFn === undefined
+            ? (a, b) => _.get(a, path) - _.get(b, path)
+            : sorterFn;
         const sortDirections = ['descend', 'ascend'];
         const sortOrder = sortedInfo.columnKey === columnKey && sortedInfo.order;
 
@@ -82,7 +84,11 @@ class ListingTable extends React.Component {
                 title: 'Id',
                 dataIndex: 'listingId',
                 key: 'listingId',
-                ...this.createColumnSorter('listingId','listingId'),
+                ...this.createColumnSorter(
+                    'listingId',
+                    'listingId',
+                    (r1, r2) => r1.listingId.localeCompare(r2.listingId)
+                ),
             },
             {
                 title: 'Country',
@@ -143,35 +149,33 @@ class ListingTable extends React.Component {
     }
 
     render() {
-        const { listings, isDataReady, onPlaceBid, isBidRequestBusy } = this.props;
+        const { listings, onPlaceBid, isBidRequestBusy } = this.props;
         const { selectedListing, isCoinDetailsModalOpen, isBuyCoinModalOpen } = this.state;
 
         return(
             <div className="listing-table">
-                {isDataReady &&
-                    <div className="listing-table__content">
-                        <div className="listing-table__operations">
-                            <Button onClick={this.clearAll}>Clear filters and sorters</Button>
-                        </div>
-                        <Table
-                            columns={this.createColumns()}
-                            onChange={this.handleChange}
-                            dataSource={listings}
-                            pagination={false}
-                        />
-                        <CoinDetailsModal
-                            isOpen={isCoinDetailsModalOpen}
-                            onCancel={this.handleModelCancel}
-                            coin={selectedListing.coin}
-                        />
-                        <BuyCoinModal
-                            isOpen={isBuyCoinModalOpen && !isBidRequestBusy}
-                            onCancel={this.handleModelCancel}
-                            listing={selectedListing}
-                            onSubmit={onPlaceBid}
-                        />
+                <div className="listing-table__content">
+                    <div className="listing-table__operations">
+                        <Button onClick={this.clearAll}>Clear filters and sorters</Button>
                     </div>
-                }
+                    <Table
+                        columns={this.createColumns()}
+                        onChange={this.handleChange}
+                        dataSource={listings}
+                        pagination={false}
+                    />
+                    <CoinDetailsModal
+                        isOpen={isCoinDetailsModalOpen}
+                        onCancel={this.handleModelCancel}
+                        coin={selectedListing.coin}
+                    />
+                    <BuyCoinModal
+                        isOpen={isBuyCoinModalOpen && !isBidRequestBusy}
+                        onCancel={this.handleModelCancel}
+                        listing={selectedListing}
+                        onSubmit={onPlaceBid}
+                    />
+                </div>
             </div>
         );
     }
@@ -179,8 +183,6 @@ class ListingTable extends React.Component {
 
 const mapStateToProps = state => ({
     listings: activeListingsWithCoinDataSelector(state),
-    isDataReady: state.assets.listings.requestState.success
-        && state.assets.coins.requestState.success,
 });
 
 export default connect(mapStateToProps, {})(ListingTable);

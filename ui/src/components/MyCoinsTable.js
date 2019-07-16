@@ -108,7 +108,11 @@ class MyCoinsTable extends React.Component {
                 title: 'Id',
                 dataIndex: 'coinId',
                 key: 'coinId',
-                ...this.createColumnSorter('coinId','coinId'),
+                ...this.createColumnSorter(
+                    'coinId',
+                    'coinId',
+                    (r1, r2) => r1.coinId.localeCompare(r2.coinId)
+                ),
             },
             {
                 title: 'Country',

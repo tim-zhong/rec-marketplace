@@ -59,10 +59,12 @@ class MyListingsTable extends React.Component {
         return { filters, onFilter, filteredValue };
     }
 
-    createColumnSorter = (columnKey, path, compute = item => item) => {
+    createColumnSorter = (columnKey, path, sorterFn) => {
         let { sortedInfo } = this.state;
 
-        const sorter = (a, b) => compute(_.get(a, path)) - compute(_.get(b, path));
+        const sorter = sorterFn === undefined
+            ? (a, b) => _.get(a, path) - _.get(b, path)
+            : sorterFn;
         const sortDirections = ['descend', 'ascend'];
         const sortOrder = sortedInfo.columnKey === columnKey && sortedInfo.order;
 
@@ -75,7 +77,11 @@ class MyListingsTable extends React.Component {
                 title: 'Id',
                 dataIndex: 'listingId',
                 key: 'listingId',
-                ...this.createColumnSorter('listingId','listingId'),
+                ...this.createColumnSorter(
+                    'listingId',
+                    'listingId',
+                    (r1, r2) => r1.listingId.localeCompare(r2.listingId)
+                ),
             },
             {
                 title: 'Price (CAD)',
@@ -96,7 +102,7 @@ class MyListingsTable extends React.Component {
                 ...this.createColumnSorter(
                     'highestBid',
                     'bidPrices', 
-                    prices => _.max(prices) || 0
+                    (a, b) => (_.max(a.bidPrices) || 0) - (_.max(b.bidPrices) || 0)
                 ),
                 render: (text, record) => _.max(record.bidPrices) || 'N/A'
             },
