@@ -75,7 +75,7 @@ async function listCoin(listCoinTransaction) {
 async function cancelCoin(cancelCoinTransaction) {
     const { coin } = cancelCoinTransaction;
     
-    if (coin.sate !== 'ACTIVE') {
+    if (coin.state !== 'ACTIVE') {
         throw new Error('Only active coins can be cancelled');
     }
     
