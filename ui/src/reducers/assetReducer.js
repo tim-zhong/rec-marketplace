@@ -21,11 +21,14 @@ const buildBasicAssetReducer = actionTypes => {
         POST_ASSET_REQUEST,
         POST_ASSET_SUCCESS,
         POST_ASSET_FAILURE,
+        REMOVE_ALL,
     } = actionTypes;
 
     return (state = initialState, action) => {
         const { type, data } = action;
         switch (type) {
+            case REMOVE_ALL:
+                return initialState;
             case FETCH_ASSET_REQUEST:
                 return { ...state, requestState: { busy: true } };
             case FETCH_ASSET_SUCCESS:

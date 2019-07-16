@@ -57,6 +57,21 @@ export const activeListingsWithCoinDataSelector = createSelector(
 );
 
 /**
+ * listingsWithCoinDataByUserSelector return an array that contains all the listings
+ * belong to a user in the store. It also decorates the 'coin' field in each listing with the
+ * actual coin data.
+ */
+export const listingsWithCoinDataByUserSelector = createSelector(
+    [coinDataSelector, listingsByUserSelector],
+    (coinData, listings) => {
+        return _.map(
+            listings,
+            listing => ({...listing, coin: coinData[getIdFromRefString(listing.coin)]})
+        );
+    }
+);
+
+/**
  * listingsWithCoinDataSelector return an array that contains all the listings in the store.
  * It also decorates the 'coin' field in each listing with the actual coin data.
  */

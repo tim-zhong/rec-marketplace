@@ -3,6 +3,11 @@ import { assetService } from '../services/assetService';
 import { alertError } from './alertActions';
 
 /**
+ * removeAllCoins removes all coins date from the store.
+ */
+export const removeAllCoins = () => ({ type: assetConstants.COINS.REMOVE_ALL });
+
+/**
  * Returns the corresponsing data fetcher.
  * A data fetcher is an object that encapsulates the available actions for that asset, and
  * a function to fetch data from API.
@@ -89,6 +94,11 @@ const getCreatorByName = name => {
                 // is the most relevent to the transaction
                 actionTypes: assetConstants.COINS,
                 create: assetService.cancelCoin,
+            }
+        case 'endListing':
+            return {
+                actionTypes: assetConstants.LISTINGS,
+                create: assetService.endListing,
             }
         default:
             throw new Error(`No matching creator for asset/transaction name: ${name}`);

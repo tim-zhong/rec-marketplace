@@ -1,10 +1,15 @@
 import React from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAsset, createAssetOrTransaction } from '../actions/assetActions';
+import {
+    fetchAsset,
+    createAssetOrTransaction,
+    removeAllCoins,
+} from '../actions/assetActions';
+import { refetchUser } from '../actions/sessionActions';
 import {
     coinsByUserSelector,
-    listingsByUserSelector,
+    listingsWithCoinDataByUserSelector,
     bidsByUserSelector
 } from '../selectors';
 import PrivateRoute from '../components/PrivateRoute';
@@ -25,7 +30,9 @@ class DashboardPage extends React.Component {
     }
 
     loadData = () => {
-        const { user, fetchAsset } = this.props;
+        const { user, fetchAsset, updateUserData, removeAllCoins } = this.props;
+        removeAllCoins();
+        updateUserData();
         fetchAsset('coinsByUser', user.userId);
         fetchAsset('listingsByUser', user.userId);
         fetchAsset('bidsByUser', user.userId);
@@ -51,6 +58,12 @@ class DashboardPage extends React.Component {
             });
     }
 
+    endListing = listingId => {
+        const { createAssetOrTransaction } = this.props;
+        createAssetOrTransaction('endListing', listingId)
+            .then(this.loadData);
+    }
+
     isRouteActive = routeKey => _.last(window.location.href.split('/')) === routeKey;
 
     render() {
@@ -65,7 +78,6 @@ class DashboardPage extends React.Component {
 
         return (
             <Layout>
-                <Redirect to={{ pathname: `${match.path}/coins` }} />
                 {!isDataReady &&  <Loading />}
                 <Header user={user} selected="dashboard" />
                 {isDataReady &&
@@ -107,8 +119,17 @@ class DashboardPage extends React.Component {
                             component={MyCoinsTable}
                             componentProps={{ coins, sellCoin: this.sellCoin, cancelCoin: this.cancelCoin }}
                         />
-                        <PrivateRoute exact path={`${match.path}/listings`} component={MyListingsTable} />
-                        <PrivateRoute exact path={`${match.path}/bids`} component={MyBidsTable} />
+                        <PrivateRoute
+                            exact
+                            path={`${match.path}/listings`}
+                            component={MyListingsTable}
+                            componentProps={{ listings, endListing: this.endListing }}
+                        />
+                        <PrivateRoute
+                            exact
+                            path={`${match.path}/bids`}
+                            component={MyBidsTable}
+                        />
                     </Content>
                 }
             </Layout>
@@ -120,7 +141,7 @@ const mapStateToProps = state => ({
     user: state.session.user,
     alert: state.alert,
     coins: coinsByUserSelector(state),
-    listings: listingsByUserSelector(state),
+    listings: listingsWithCoinDataByUserSelector(state),
     bids: bidsByUserSelector(state),
     isDataReady: state.assets.coins.requestState.success
         && state.assets.listings.requestState.success
@@ -130,4 +151,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
     fetchAsset,
     createAssetOrTransaction,
+    updateUserData: refetchUser,
+    removeAllCoins,
 })(DashboardPage);

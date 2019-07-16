@@ -31,7 +31,7 @@ class ListCoinModal extends React.Component {
         onCancel();
     }
 
-    render () {
+    render() {
         const { coin, isOpen, form: { getFieldDecorator } } = this.props;
 
         // Pick fields form coin using fieldsToDisplay
@@ -45,7 +45,7 @@ class ListCoinModal extends React.Component {
                 title="Sell Coin"
                 visible={isOpen}
                 onCancel={this.handleCancel}
-                okText="Sell"
+                okText="Create listing"
                 onOk={this.handleSubmit}
             >
                 <List

@@ -55,9 +55,9 @@ class MyCoinsTable extends React.Component {
         confirm({
           title: 'Are you sure you want to cancel this coin?',
           content: 'This process cannot be undone.',
-          okText: 'Yes. Cancel Coin',
+          okText: 'Yes. Cancel coin',
           okType: 'danger',
-          cancelText: 'No. Keep Coin',
+          cancelText: 'No. Keep coin',
           onOk: cancelCoin.bind(this, record.coinId),
         });
       }
@@ -160,15 +160,15 @@ class MyCoinsTable extends React.Component {
                                         <Icon type="eye" />
                                 </button>
                             </Tooltip>
-                            <Divider type="vertical" />
-                            <button
-                                className="button-link button-link--colored"
-                                onClick={this.handleCancelClick.bind(this, record)}
-                            >
-                                Cancel
-                            </button>
                             {isCoinActive &&
                                 <span>
+                                    <Divider type="vertical" />
+                                    <button
+                                        className="button-link button-link--colored"
+                                        onClick={this.handleCancelClick.bind(this, record)}
+                                    >
+                                        Cancel
+                                    </button>
                                     <Divider type="vertical" />
                                     <button
                                         className="button-link button-link--colored"

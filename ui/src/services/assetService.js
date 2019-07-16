@@ -74,6 +74,20 @@ const createListing = (minPrice, coinId) => {
 }
 
 /**
+ * Service function for ending coin listings.
+ */
+const endListing = listingId => {
+    const { buildAssetRefString, buildClassRefString } = hyperledgerClient;
+    const listing = buildAssetRefString('CoinListing', listingId);
+
+    const data = { listing };
+    // TODO: move it to hyperledgerClient
+    data['$class'] = buildClassRefString('EndListing');
+
+    return hyperledgerClient.post('/EndListing', data);
+}
+
+/**
  * Service function for creating bids.
  */
 const createBid = (bidPrice, listingId, userId) => {
@@ -111,6 +125,7 @@ export const assetService = {
     fetchBidsByUser,
     
     createListing,
+    endListing,
     createBid,
     cancelCoin,
 }
