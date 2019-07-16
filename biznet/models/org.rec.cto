@@ -29,7 +29,6 @@ enum CoinState {
 enum ListingState {
     o ACTIVE
     o ENDED
-    o CANCELLED
 }
 
 enum BidState {
