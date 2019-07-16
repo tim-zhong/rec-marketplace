@@ -37,7 +37,11 @@ class EndListingModal extends React.Component {
                 visible={isOpen}
                 onOk={this.handleSubmit}
                 onCancel={onCancel}
-                okText="Sell to the highest bidder"
+                okText={
+                    bidPrices.length 
+                        ? "Sell to the highest bidder"
+                        : "End listing"
+                }
             >
                 <List
                     header="Coin Summary"
@@ -51,10 +55,12 @@ class EndListingModal extends React.Component {
                         </List.Item>
                     )}
                 />
-                <Descriptions column={1} size="small" className="end-listing-modal__listing-info">
-                    <Descriptions.Item label="Number of Bids">{bidPrices.length}</Descriptions.Item>
-                    <Descriptions.Item label="Highest Bid">{formater(_.max(bidPrices))}</Descriptions.Item>
-                </Descriptions>
+                {!!bidPrices.length &&
+                    <Descriptions column={1} size="small" className="end-listing-modal__listing-info">
+                        <Descriptions.Item label="Number of Bids">{bidPrices.length}</Descriptions.Item>
+                        <Descriptions.Item label="Highest Bid">{formater(_.max(bidPrices))}</Descriptions.Item>
+                    </Descriptions>
+                }
             </Modal>
         )
     }
