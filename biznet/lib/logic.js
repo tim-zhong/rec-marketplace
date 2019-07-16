@@ -122,7 +122,8 @@ async function endListing(endListingTransaction) {
         }
         // return the amount back to unsuccessful bidders;
         bidder.balance += bid.bidPrice;
-        updatedUsers.push(bidder);
+        if (bidder.userId !== origianlOwner.userId)
+            updatedUsers.push(bidder);
         Object.assign(bid, { state: 'UNSUCCESSFUL' });
     };
 
