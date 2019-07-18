@@ -120,6 +120,23 @@ class ListingTable extends React.Component {
                 ...this.createColumnSorter('minPrice', 'minPrice'),
             },
             {
+                title: 'Number of bids',
+                dataIndex: 'bidPrices.length',
+                key: 'numBids',
+                ...this.createColumnSorter('numBids', 'bidPrices.length'),
+            },
+            {
+                title: 'Highest bid',
+                dataIndex: 'bidPrices',
+                key: 'highestBid',
+                ...this.createColumnSorter(
+                    'highestBid',
+                    'bidPrices',
+                    (a, b) => (_.max(a.bidPrices) || 0) - (_.max(b.bidPrices) || 0)
+                ),
+                render: (text, record) => _.max(record.bidPrices) || 'N/A'
+            },
+            {
                 title: 'Actions',
                 key: 'actions',
                 render: (text, record) => {

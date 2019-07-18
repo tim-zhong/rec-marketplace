@@ -101,7 +101,7 @@ class MyListingsTable extends React.Component {
                 key: 'highestBid',
                 ...this.createColumnSorter(
                     'highestBid',
-                    'bidPrices', 
+                    'bidPrices',
                     (a, b) => (_.max(a.bidPrices) || 0) - (_.max(b.bidPrices) || 0)
                 ),
                 render: (text, record) => _.max(record.bidPrices) || 'N/A'
