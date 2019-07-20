@@ -19,6 +19,13 @@ function getRandomHash(length = 5) {
     return result;
 }
 
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
+
 function parseJSON(response) {
     return response.json();
 }
@@ -45,22 +52,28 @@ function get(path, params = {}) {
         .join('&');
 
     return new Promise((resolve, reject) => {
-        return fetch(`${API_ROOT}api${path}?${query}`, {accpet: 'application/json'})
+        fetch(`${API_ROOT}api${path}?${query}`, {accpet: 'application/json'})
+            .then(handleErrors)
             .then(parseJSON)
             .then(resolve)
+            .catch(err => reject(err));
     });
 }
 
 function post(type, data) {
     return new Promise((resolve, reject) => {
-        return fetch(`${API_ROOT}api${type}`, {
+        fetch(`${API_ROOT}api${type}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
-        }).then(parseJSON).then(resolve);
+        })
+        .then(handleErrors)
+        .then(parseJSON)
+        .then(resolve)
+        .catch(err => reject(err));
     })
 }
 
