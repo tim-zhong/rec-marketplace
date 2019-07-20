@@ -1,6 +1,6 @@
 import { assetConstants } from '../constants/assetConstants';
 import { assetService } from '../services/assetService';
-import { alertError } from './alertActions';
+import { alertError, alertSuccess } from './alertActions';
 
 /**
  * removeAllCoins removes all coins date from the store.
@@ -39,7 +39,7 @@ const getDataFetcherByAssetName = assetName => {
             return {
                 actionTypes: assetConstants.BIDS,
                 fetch: assetService.fetchBidsByUser,
-            }
+            };
         default:
             throw new Error(`No matching fetcher for asset name: ${assetName}`);
     }
@@ -82,11 +82,15 @@ const getCreatorByName = name => {
             return {
                 actionTypes: assetConstants.BIDS,
                 create: assetService.createBid,
+                successMessage: 'Your bid has been successfully placed.',
+                errorMessage: 'Failed to place bid.',
             };
         case 'listing':
             return {
                 actionTypes: assetConstants.LISTINGS,
                 create: assetService.createListing,
+                successMessage: 'Your coin has been listed.',
+                errorMessage: 'Failed to list coin.',
             };
         case 'cancelCoin':
             return {
@@ -94,12 +98,16 @@ const getCreatorByName = name => {
                 // is the most relevent to the transaction
                 actionTypes: assetConstants.COINS,
                 create: assetService.cancelCoin,
-            }
+                successMessage: 'Your coin has been successfully cancelled.',
+                errorMessage: 'Failed to cancel coin.',
+            };
         case 'endListing':
             return {
                 actionTypes: assetConstants.LISTINGS,
                 create: assetService.endListing,
-            }
+                successMessage: 'Your listing has been successfully ended.',
+                errorMessage: 'Failed to end listing.',
+            };
         default:
             throw new Error(`No matching creator for asset/transaction name: ${name}`);
     }
@@ -127,12 +135,13 @@ export const createAssetOrTransaction = (name, ...rest) => dispatch => {
     return creator.create(...rest)
         .then(
             data => {
+                dispatch(alertSuccess(creator.successMessage));
                 dispatch({ type: POST_ASSET_SUCCESS, data });
             }
         )
         .catch(
             error => {
-                dispatch(alertError(error));
+                dispatch(alertError(creator.errorMessage));
                 dispatch({ type: POST_ASSET_FAILURE, error });
             }
         );

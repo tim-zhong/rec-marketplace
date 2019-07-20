@@ -13,7 +13,7 @@ import {
     bidsByUserSelector
 } from '../selectors';
 import PrivateRoute from '../components/PrivateRoute';
-import { Statistic } from 'antd';
+import { Statistic, message } from 'antd';
 import Layout from './layout/Layout';
 import MyCoinsTable from './MyCoinsTable';
 import MyListingsTable from './MyListingsTable';
@@ -27,6 +27,16 @@ const { Header, Sider, Content, Loading } = Layout;
 class DashboardPage extends React.Component {
     componentDidMount() {
         this.loadData();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { alert } = this.props;
+        if (prevProps.alert.message !== alert.message) {
+            if (alert.type === 'success')
+                message.success(alert.message);
+            else if (alert.type === 'error')
+                message.error(alert.message);
+        }
     }
 
     loadData = () => {
