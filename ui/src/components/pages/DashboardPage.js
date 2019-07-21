@@ -5,21 +5,21 @@ import {
     fetchAsset,
     createAssetOrTransaction,
     removeAllCoins,
-} from '../actions/assetActions';
-import { refetchUser } from '../actions/sessionActions';
+} from '../../actions/assetActions';
+import { refetchUser } from '../../actions/sessionActions';
 import {
     coinsByUserSelector,
     listingsWithCoinDataByUserSelector,
     bidsByUserSelector
-} from '../selectors';
-import PrivateRoute from '../components/PrivateRoute';
+} from '../../selectors';
+import PrivateRoute from '../PrivateRoute';
 import { Statistic, message } from 'antd';
-import Layout from './layout/Layout';
-import MyCoinsTable from './MyCoinsTable';
-import MyListingsTable from './MyListingsTable';
-import MyBidsTable from './MyBidsTable';
+import Layout from '../layout/Layout';
+import MyCoinsTable from '../MyCoinsTable';
+import MyListingsTable from '../MyListingsTable';
+import MyBidsTable from '../MyBidsTable';
 import _ from 'lodash';
-import '../styles/DashboardPage.less';
+import '../../styles/pages/DashboardPage.less';
 
 const { Header, Sider, Content, Loading } = Layout;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchAsset, createAssetOrTransaction } from '../actions/assetActions';
+import { fetchAsset, createAssetOrTransaction } from '../../actions/assetActions';
 import { message } from 'antd';
-import Layout from './layout/Layout';
-import ListingTable from './ListingTable';
+import Layout from '../layout/Layout';
+import ListingTable from '../ListingTable';
 
 const { Header, Content, Loading } = Layout;
 

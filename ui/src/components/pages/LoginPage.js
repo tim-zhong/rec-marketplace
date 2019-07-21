@@ -1,10 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { login, logout } from '../actions/sessionActions';
+import { login, logout } from '../../actions/sessionActions';
 import { Alert, Card } from 'antd';
-import LoginForm from './LoginForm';
-import '../styles/LoginPage.less';
+import LoginForm from '../LoginForm';
+import '../../styles/pages/LoginPage.less';
 
 class LoginPage extends React.Component {
     constructor(props) {
