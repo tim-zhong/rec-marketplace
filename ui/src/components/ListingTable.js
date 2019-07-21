@@ -12,7 +12,9 @@ class ListingTable extends React.Component {
         sortedInfo: {},
         isCoinDetailsModalOpen: false,
         isBuyCoinModalOpen: false,
-        selectedListing: {},
+        selectedListing: {
+            coin: {},
+        },
     }
 
     handleChange = (pagination, filters, sorter) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { hyperledgerClient } from '../helpers/hyperledgerClient';
 import { Tag, Table, Button } from 'antd';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 class MyBidsTable extends React.Component {
@@ -117,5 +118,9 @@ class MyBidsTable extends React.Component {
         )
     }
 }
+
+MyBidsTable.propTypes = {
+    bids: PropTypes.array.isRequired,
+};
 
 export default MyBidsTable;

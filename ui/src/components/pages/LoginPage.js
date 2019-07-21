@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { login, logout } from '../../actions/sessionActions';
 import { Alert, Card } from 'antd';
 import LoginForm from '../LoginForm';
+import PropTypes from 'prop-types';
 import '../../styles/pages/LoginPage.less';
 
 class LoginPage extends React.Component {
@@ -32,9 +33,14 @@ class LoginPage extends React.Component {
     }
 }
 
+LoginPage.propTypes = {
+    alert: PropTypes.object.isRequired,
+    loggingIn: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = state => ({
     alert: state.alert,
-    loggingIn: state.session.loggingIn,
+    loggingIn: !!state.session.loggingIn,
 });
 
 export default connect(mapStateToProps, {

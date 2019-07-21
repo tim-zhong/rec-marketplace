@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col } from 'antd';
+import PropTypes from 'prop-types';
 import '../../styles/layout/Sider.less'
 
 const Sider = props => (
@@ -7,5 +8,9 @@ const Sider = props => (
         {props.children}
     </Col>
 )
+
+Sider.propTypes = {
+    className: PropTypes.string,
+};
 
 export default Sider;

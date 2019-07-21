@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Table, Tag } from 'antd';
 import EndListingModal from './modals/EndListingModal';
 import _ from 'lodash';
-
+import PropTypes from 'prop-types';
 
 class MyListingsTable extends React.Component {
     state = {
@@ -158,5 +158,10 @@ class MyListingsTable extends React.Component {
         )
     }
 }
+
+MyListingsTable.propTypes = {
+    listings: PropTypes.array.isRequired,
+    endListing: PropTypes.func.isRequired,
+};
 
 export default MyListingsTable;

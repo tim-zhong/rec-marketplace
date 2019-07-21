@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, List } from 'antd';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import '../../styles/modals/CoinDetailsModal.less';
 
 const CoinDetailsModal = props => {
@@ -32,6 +33,12 @@ const CoinDetailsModal = props => {
             </div>
         </Modal>
     )
+};
+
+CoinDetailsModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    coin: PropTypes.object.isRequired,
 };
 
 export default CoinDetailsModal;

@@ -19,6 +19,7 @@ import MyCoinsTable from '../MyCoinsTable';
 import MyListingsTable from '../MyListingsTable';
 import MyBidsTable from '../MyBidsTable';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import '../../styles/pages/DashboardPage.less';
 
 const { Header, Sider, Content, Loading } = Layout;
@@ -155,15 +156,28 @@ class DashboardPage extends React.Component {
     }
 }
 
+DashboardPage.propTypes = {
+    user: PropTypes.object.isRequired,
+    alert: PropTypes.object.isRequired,
+    coins: PropTypes.array.isRequired,
+    listings: PropTypes.array.isRequired,
+    bids: PropTypes.array.isRequired,
+    isDataReady: PropTypes.bool.isRequired,
+    fetchAsset: PropTypes.func.isRequired,
+    createAssetOrTransaction: PropTypes.func.isRequired,
+    updateUserData: PropTypes.func.isRequired,
+    removeAllCoins: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
     user: state.session.user,
     alert: state.alert,
     coins: coinsByUserSelector(state),
     listings: listingsWithCoinDataByUserSelector(state),
     bids: bidsByUserSelector(state),
-    isDataReady: state.assets.coins.requestState.success
-        && state.assets.listings.requestState.success
-        && state.assets.bids.requestState.success
+    isDataReady: !!state.assets.coins.requestState.success
+        && !!state.assets.listings.requestState.success
+        && !!state.assets.bids.requestState.success,
 });
 
 export default connect(mapStateToProps, {

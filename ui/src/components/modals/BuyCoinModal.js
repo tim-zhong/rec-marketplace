@@ -2,6 +2,7 @@ import React from 'react';
 import { Descriptions, Button, Modal, Row, Col, Form, InputNumber } from 'antd';
 import _ from 'lodash';
 import format from 'format-number';
+import PropTypes from 'prop-types';
 import '../../styles/modals/BuyCoinModal.less';
 
 const formater = format({ prefix: '$' });
@@ -84,5 +85,12 @@ class BuyCoinModal extends React.Component {
         );
     }
 }
+
+BuyCoinModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    listing: PropTypes.object.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+};
 
 export default Form.create()(BuyCoinModal);

@@ -3,6 +3,7 @@ import { Button, Tag, Table, Tooltip, Icon, Divider, Modal } from 'antd';
 import _ from 'lodash';
 import CoinDetailsModal from './modals/CoinDetailsModal';
 import ListDetailsModal from './modals/ListCoinModal';
+import PropTypes from 'prop-types';
 
 const { confirm } = Modal;
 
@@ -218,5 +219,11 @@ class MyCoinsTable extends React.Component {
         )
     }
 }
+
+MyCoinsTable.propTypes = {
+    coins: PropTypes.array.isRequired,
+    sellCoin: PropTypes.func.isRequired,
+    cancelCoin: PropTypes.func.isRequired,
+};
 
 export default MyCoinsTable;

@@ -4,6 +4,7 @@ import { fetchAsset, createAssetOrTransaction } from '../../actions/assetActions
 import { message } from 'antd';
 import Layout from '../layout/Layout';
 import ListingTable from '../ListingTable';
+import PropTypes from 'prop-types';
 
 const { Header, Content, Loading } = Layout;
 
@@ -48,11 +49,19 @@ class HomePage extends React.Component {
     }
 }
 
+HomePage.propTypes = {
+    user: PropTypes.object.isRequired,
+    alert: PropTypes.object.isRequired,
+    isDataReady: PropTypes.bool.isRequired,
+    fetchAsset: PropTypes.func.isRequired,
+    createAssetOrTransaction: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
     user: state.session.user,
     alert: state.alert,
-    isDataReady: state.assets.listings.requestState.success
-        && state.assets.coins.requestState.success
+    isDataReady: !!state.assets.listings.requestState.success
+        && !!state.assets.coins.requestState.success
         && !state.assets.bids.requestState.busy,
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Icon } from "antd";
+import PropTypes from 'prop-types';
 
 class LoginForm extends React.Component {
     handleSubmit = e => {
@@ -54,5 +55,10 @@ class LoginForm extends React.Component {
         );
     }
 }
+
+LoginForm.propTypes = {
+    login: PropTypes.func.isRequired,
+    isLoggingIn: PropTypes.bool.isRequired,
+};
 
 export default Form.create()(LoginForm);

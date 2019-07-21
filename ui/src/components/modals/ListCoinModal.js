@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Modal, List, InputNumber } from 'antd';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 const fieldsToDisplay = [
@@ -75,5 +76,12 @@ class ListCoinModal extends React.Component {
         );
     }
 }
+
+ListCoinModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    coin: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+};
 
 export default Form.create()(ListCoinModal);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, Dropdown, Icon, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import '../../styles/layout/Header.less';
 
 const userMenu = (
@@ -35,5 +36,10 @@ const Header = props => (
         </Row>
     </header>
 );
+
+Header.protoTypes = {
+    user: PropTypes.object.isRequired,
+    className: PropTypes.string,
+};
 
 export default Header;

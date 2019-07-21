@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col } from 'antd';
+import PropTypes from 'prop-types';
 import '../../styles/layout/Content.less';
 
 const Content = props => (
@@ -9,5 +10,9 @@ const Content = props => (
         </main>
     </Col>
 );
+
+Content.propTypes = {
+    className: PropTypes.string,
+};
 
 export default Content;

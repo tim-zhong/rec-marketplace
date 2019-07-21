@@ -7,6 +7,7 @@ import PrivateRoute from '../components/PrivateRoute';
 import HomePage from './pages/HomePage';
 import DashboardPage from '../components/pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
+import PropTypes from 'prop-types';
 
 class App extends React.Component {
     constructor(props) {
@@ -30,6 +31,10 @@ class App extends React.Component {
         );
     }
 }
+
+App.propTypes = {
+    alertClear: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
 });

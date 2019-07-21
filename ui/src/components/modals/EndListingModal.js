@@ -2,6 +2,7 @@ import React from 'react';
 import { Descriptions, Modal, List } from 'antd';
 import format from 'format-number';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import '../../styles/modals/EndListingModal.less';
 
 const formater = format({ prefix: '$' });
@@ -65,5 +66,12 @@ class EndListingModal extends React.Component {
         )
     }
 }
+
+EndListingModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    listing: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+};
 
 export default EndListingModal;
