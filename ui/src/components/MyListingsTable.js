@@ -84,6 +84,16 @@ class MyListingsTable extends React.Component {
                 ),
             },
             {
+                title: 'Coin Id',
+                dataIndex: 'coin.coinId',
+                key: 'coinId',
+                ...this.createColumnSorter(
+                    'coinId',
+                    'coinId',
+                    (r1, r2) => r1.coin.coinId.localeCompare(r2.coin.coinId)
+                ),
+            },
+            {
                 title: 'Price (CAD)',
                 dataIndex: 'minPrice',
                 key: 'minPrice',
