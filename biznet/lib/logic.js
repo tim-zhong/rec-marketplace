@@ -103,14 +103,14 @@ async function endListing(endListingTransaction) {
     await getParticipantRegistry('org.rec.User')
         .then(registry => userRegistry = registry);
     const coin = listing.coin;
-    const origianlOwner = coin.owner;
+    let origianlOwner = coin.owner;
 
     const listingResourceId = `resource:${listing.getFullyQualifiedIdentifier()}`;
     const bids = await query('selectBidsByListing', { listing: listingResourceId });
 
     let highestBid;
     let highestBidder;
-    const updatedUsers = [origianlOwner];
+    const updatedUsers = {};
     for (const bid of bids) {
         let bidder;
         await userRegistry.get(bid.user.getIdentifier())
@@ -122,8 +122,13 @@ async function endListing(endListingTransaction) {
         }
         // return the amount back to unsuccessful bidders;
         bidder.balance += bid.bidPrice;
-        if (bidder.userId !== origianlOwner.userId)
-            updatedUsers.push(bidder);
+        updatedUsers[bidder.userId] = bidder;
+
+        // origianlOwner's blance may get updated here too, if she
+        // bid on her own listing.
+        if (bidder.userId === origianlOwner.userId)
+            origianlOwner = bidder;
+
         Object.assign(bid, { state: 'UNSUCCESSFUL' });
     };
 
@@ -133,13 +138,15 @@ async function endListing(endListingTransaction) {
         highestBidder.balance -= finalPrice;
         origianlOwner.balance += finalPrice;
         coin.owner = highestBid.user;
+
+        updatedUsers[origianlOwner.userId] = origianlOwner;
     }
 
     coin.state = 'ACTIVE';
     listing.state = 'ENDED';
 
     await getParticipantRegistry('org.rec.User')
-        .then(registry => registry.updateAll(updatedUsers));
+        .then(registry => registry.updateAll(Object.values(updatedUsers)));
     await getAssetRegistry('org.rec.Bid')
         .then(registry => registry.updateAll(bids));
     await getAssetRegistry('org.rec.CoinListing')
