@@ -82,9 +82,8 @@ echo "Don't worry if there're errors here. The cards we're deleting might not ex
 cd $DIR
 
 
-# CREATE PEER ADMIN CARD AND IMPORT
-printHeader "CREATE PEER ADMIN CARD AND IMPORT"
 # CREATE LOCATION FOR LOCAL CARD STORE
+printHeader "CREATE LOCATION FOR LOCAL CARD STORE"
 rm -rf $(pwd)/.loc-card-store
 mkdir $(pwd)/.loc-card-store
 chmod 777 $(pwd)/.loc-card-store
