@@ -173,17 +173,17 @@ composer card import -f PeerAdmin@fabric-network.card
 
 # PACKAGE THE BUSINESS NETWORK
 printHeader "PACKAGE THE BUSINESS NETWORK"
-cd $DIR/biznet
+cd $DIR/../biznet
 composer archive create -a rec-biznet.bna -t dir -n .
 cd $DIR
-cp $DIR/biznet/rec-biznet.bna rec-biznet.bna
+cp $DIR/../biznet/rec-biznet.bna rec-biznet.bna
 
 
 # INSTALL THE BNA
 printHeader "INSTALL THE BNA"
 composer network install -c PeerAdmin@fabric-network -a rec-biznet.bna
 
-NETWORK_VERSION=$(grep -o '"version": *"[^"]*"' $DIR/biznet/package.json | grep -o '[0-9]\.[0-9]\.[0-9]')
+NETWORK_VERSION=$(grep -o '"version": *"[^"]*"' $DIR/../biznet/package.json | grep -o '[0-9]\.[0-9]\.[0-9]')
 
 
 # START THE BNA
@@ -207,7 +207,7 @@ composer network ping -c admin@rec-biznet
 
 
 # CREATE DEMO PARTICIPANTS
-USERS_DATA=$(cat $DIR/installer/demoUsers.json)
+USERS_DATA=$(cat $DIR/demoUsers.json)
 printHeader "CREATE DEMO PARTICIPANTS"
 composer transaction submit \
 -c admin@rec-biznet \
@@ -215,19 +215,19 @@ composer transaction submit \
 
 
 # CREATE DEMO ASSETS
-COINS_DATA=$(cat $DIR/installer/demoCoins.json)
+COINS_DATA=$(cat $DIR/demoCoins.json)
 printHeader "CREATE DEMO ASSETS - COINS"
 composer transaction submit \
 -c admin@rec-biznet \
 -d "$COINS_DATA"
 
-LISTINGS_DATA=$(cat $DIR/installer/demoListings.json)
+LISTINGS_DATA=$(cat $DIR/demoListings.json)
 printHeader "CREATE DEMO ASSETS - LISTINGS"
 composer transaction submit \
 -c admin@rec-biznet \
 -d "$LISTINGS_DATA"
 
-BIDS_DATA=$(cat $DIR/installer/demoBids.json)
+BIDS_DATA=$(cat $DIR/demoBids.json)
 printHeader "CREATE DEMO ASSETS - BIDS"
 composer transaction submit \
 -c admin@rec-biznet \
