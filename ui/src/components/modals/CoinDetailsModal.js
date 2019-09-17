@@ -25,7 +25,9 @@ const CoinDetailsModal = props => {
                         <List.Item>
                             <List.Item.Meta
                                 title={item.title}
-                                description={item.value}
+                                description={
+                                    <span className="break-all">{item.value}</span>
+                                }
                             />
                         </List.Item>
                     )}

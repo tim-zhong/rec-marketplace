@@ -52,7 +52,7 @@ class EndListingModal extends React.Component {
                     renderItem={({ title, value }) => (
                         <List.Item>
                             <List.Item.Meta description={title}/>
-                            <div>{value}</div>
+                            <div className="break-all" style={{maxWidth: '200px'}}>{value}</div>
                         </List.Item>
                     )}
                 />

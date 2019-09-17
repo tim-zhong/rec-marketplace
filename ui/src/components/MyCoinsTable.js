@@ -113,6 +113,7 @@ class MyCoinsTable extends React.Component {
                     'coinId',
                     (r1, r2) => r1.coinId.localeCompare(r2.coinId)
                 ),
+                render: (text, record) => <span className="overflowed-text">{record.coinId}</span>
             },
             {
                 title: 'Country',
